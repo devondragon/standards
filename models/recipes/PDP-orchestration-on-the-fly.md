@@ -1,9 +1,6 @@
-# MACH Alliance • Open Data Model
+# MACH Alliance, Open Data Model
 
-## Recipe: `Recipe Name`
-
-> [!IMPORTANT]
-> A "recipe" is a document intended to serve cross-functional stakeholders (e.g., product, engineering, ops, CX, analytics) when developing composable applications. It is meant to describe a method for solving a business problem in a composable approach. It is envisioned that we may have _multiple_ recipes solving similar problems, but that the advantages and disadvantages of specific approaches unique to the use case are also highlighted.
+## Recipe: `PDP Orchestration (on the fly)`
 
 ## Table of contents
 
@@ -21,33 +18,24 @@
 - [Security & Compliance Notes](#security--compliance-notes)
 
 ## Recipe Purpose
-> [!NOTE]
-> What business goal this recipe supports (e.g., increase trust, reduce cart abandonment, drive product insights).
 
-> [!TIP]
-> A **PDP (Product Detail Page) Orchestration** [example](../recipes/PDP-orchestration-on-the-fly.md) is included throughout this template.:
+> [!NOTE]
+> This recipe is a "simple" version of a more complex [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-optimized-access.md) recipe that has a complex and aggressive data view optimization approach.
 
 To deliver a fast, reliable, and fully populated Product Detail Page (PDP) by orchestrating multiple back-end services into a single, customer-facing API. This enables consistent display of product information, pricing, inventory, and rich content across channels.
 
-___Key Business Goals:___
-* Improve PDP load time and performance
-* Reduce page abandonment rate
-* Enable non-dev marketing updates to product content
-* Enable personalized or contextual PDP content
-* Streamline cross-channel consistency (web, mobile, kiosk)
+**Key Business Goals:**
+- Improve PDP load time and performance
+- Reduce page abandonment rate
+- Enable non-dev marketing updates to product content
+- Enable personalized or contextual PDP content
+- Streamline cross-channel consistency (web, mobile, kiosk)
   
 **KPI tie-ins:** Conversion rate, average order value (AOV), content engagement metrics, page load time, SEO rankings, content publish velocity.
 
 ---
 
 ## Recipe Overview
-> [!NOTE]
-> Short paragraph describing what this recipe does and *why this approach is a best practice for described scenarios*.
-> 
-> Include a high-level customer or system journey narrative.
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 When a user requests a product page, the system must gather and assemble product data from multiple domains: product info, pricing, availability, media, and content slots. This orchestration handles the back-end coordination, ensuring fast, complete, and accurate PDP rendering.
 
@@ -56,7 +44,7 @@ When a user requests a product page, the system must gather and assemble product
 In composable commerce, using an orchestration layer instead of front-end binding is advantageous for several architectural, operational, and business reasons:
 ##### Performance & User Experience
 - Reduced Client-Side Complexity: Front-end binding means the browser must orchestrate multiple API calls, handle failures, and manage complex business logic. This creates slower page loads, increased JavaScript bundle sizes, and potential for user-facing errors during API failures.
-- Caching & Optimization: An integration layer can implement sophisticated caching strategies, data transformation, and response optimization that would be impossible or inefficient to replicate in every front-end instance.
+- Access Layer Optimization: An integration layer can implement sophisticated data view strategies, data transformation, and response optimization that would be impossible or inefficient to replicate in every front-end instance.
 - Network Efficiency: Instead of making multiple round-trips from client to various services, the integration layer can aggregate data server-side and return optimized payloads.
 ##### Security & Compliance 
 - API Key Management: Front-end binding exposes API credentials in client-side code or requires complex token management. The integration layer keeps sensitive credentials server-side.
@@ -73,28 +61,22 @@ In composable commerce, using an orchestration layer instead of front-end bindin
 ##### Operational Excellence
 - Monitoring & Observability: Centralized logging, metrics, and alerting for all third-party service interactions. You can track performance, errors, and usage patterns effectively.
 - Fallback Strategies: Implementing circuit breakers, graceful degradation, and fallback mechanisms is more reliable server-side.
-Deployment Independence: Front-end applications can be deployed independently of backend service changes, and vice versa._
+Deployment Independence: Front-end applications can be deployed independently of backend service changes, and vice versa.
 
 ---
 ## Typical pitfalls
 - This approach outlines using orchestration to assemble multiple sources on the fly. This approach is ideal if your underlying services are fast and reliable or if you have to make multiple decision points and business logic that may limit the benefit of access layer optimization:
   - For example, if the output is regularly changing based on changing underlying data or unique user requirements (such as personalizing by segment or geography).
 - Depending on the speed of underlying services, you may wish to add access layer optimization approaches to improve performance.
+
+> [!TIP]
+> The recipe [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-optimized-access.md) describes a more complex and aggressive data view optimization approach if the use case requires it.
   
 ---
 
 
 ## Actors / Stakeholders
-> [!NOTE]
-> Provide details to include users involved in the use case as well as systems and internal teams involved in the underlying development.
->
-> * __Users:__ (Customer, Agent, Admin)
-> * __Systems:__  (e.g., Commerce Engine, CDP, CMS, CRM)
-> * __Teams:__  (e.g., Product, Marketing, Support)
 
-> [!TIP]
-> **PDP Orchestration** example:
-> 
 **Users:**
 - **Customers:** Consume integrated content and commerce experiences
 - **Content Authors:** Create and manage editorial content referencing products
@@ -105,7 +87,7 @@ Deployment Independence: Front-end applications can be deployed independently of
 - **CMS:** Manages editorial content, templates, and content-product relationships
 - **Commerce Engine:** Provides product data, pricing, inventory, and checkout functionality
 - **Orchestration Layer:** Aggregates all service responses and a single API for front-end developers
-- **Access Layer:** Delivers optimized data views with commerce data integration (optional - not shown in diagram - see PDP Orchestration with Access Layer Optimization Strategy for more details)
+- **Access Layer:** Delivers optimized data views with commerce data integration (optional - not shown in diagram - see [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-optimized-access.md) for more details)
 - **Analytics Platform:** Tracks content and commerce performance metrics (optional - not shown in diagram)
 - **DAM/Dynamic media delivery:** Provides image assets and other visual product renderings (optional - not shown in diagram)
 
@@ -119,18 +101,6 @@ Deployment Independence: Front-end applications can be deployed independently of
 ---
 
 ## Trigger Points / Events
-> [!NOTE]
-> Provide details to include users involved in the use case as well as systems and internal teams involved in the underlying development.
->
-> What initiates this recipe?
-> * __Time-based__ 
-> * __Action-based__
-> * __Other process__
-
-
-> [!TIP]
-> **PDP Orchestration** example:
-> 
 
 What initiates this recipe?
 
@@ -150,12 +120,6 @@ What initiates this recipe?
 ## Recipe Flows
 
 #### Swimlane or Sequence Diagram
-
-> [!NOTE]
-> Use Mermaid to build examples: https://mermaid.js.org/
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 ```mermaid
 sequenceDiagram
@@ -197,19 +161,9 @@ sequenceDiagram
     OR-->>UI: Composed PDP object
     UI-->>U: Render PDP
 ```
-#### Architectural Overlay (optional)
-
-> [!CAUTION]
-> Example to be added
 ---
 
 ## Systems Involved
-
-> [!IMPORTANT]
-> Align with the MACH Reference Architecture: > https://github.com/machalliance/standards/blob/main/src/diagrams/MACH%20Alliance%20Reference%20Architecture%20Diagrams-rev1.4.pdf
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 | **System**          | **Role**                           | **Owner**             |
 | ------------------- | ---------------------------------- | --------------------- |
@@ -225,19 +179,6 @@ sequenceDiagram
 ---
 
 ## Data Requirements
-
-> [!NOTE]
-> * What data is needed? 
->     * Inputs: What is required to properly initiate the recipe
->     * Outputs: What systems are involved in the output of data
-> * Data lineage: where it’s stored, how it flows 
-> * Privacy/PII considerations
->
-> Inputs and Outputs should link to entities (if they exist - if they do not exist, you should create one - see [How to Contribute](/common-data-model/contributing.md#how-to-contribute)).
-
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 | **Entity**          | **Function**                            | **Source System** |
 | ------------------- | --------------------------------------- | ----------------- |
@@ -290,7 +231,10 @@ Fully composed PDP object containing all necessary data for client-side renderin
 - **Cross-border transfers** require appropriate data residency compliance
 - **B2B scenarios** may expose negotiated rates requiring access control
      
-#### Example composed object output
+### Example Composed Object Output
+
+This example demonstrates a fully orchestrated PDP response combining data from multiple services:
+
 ```json
 {
   "id": "PROD-WIRELESS-HEADPHONES-001",
@@ -568,15 +512,6 @@ Fully composed PDP object containing all necessary data for client-side renderin
 ---
 
 ## Variants / Alternatives
-> [!NOTE]
-> These can include additional use case variations as required
->
->* Mobile-specific adaptations
->* Agent-assisted workflows
->* Third-party integrations
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 **Preview Environments:**
 - Staging CMS with live commerce data connections for content validation
@@ -602,15 +537,6 @@ Fully composed PDP object containing all necessary data for client-side renderin
 ---
 
 ## Failure Modes / Edge Cases
-> [!NOTE]
-> What can go wrong? Provide examples of common failure points and potential mitigations
-> * Delivery data missing
-> * Duplicate review submissions
-> * Spam reviews
-> * How to handle fallback gracefully?
-
-> [!TIP]
-> **PDP Orchestration** example:
  
 | **Scenario** | **Impact** | **Mitigation Strategy** |
 |--------------|------------|-------------------------|
@@ -620,7 +546,7 @@ Fully composed PDP object containing all necessary data for client-side renderin
 | **Rate Limits/API Quotas** | Commerce data unavailable during high traffic | Implement API usage throttling; access layer optimization strategies; dedicated read replicas for content integration |
 | **Multi-Region Mismatch** | Wrong currency/availability shown for user location | Geographic routing validation; market-specific content variants; runtime region detection and correction |
 | **A/B Testing Conflicts** | Inconsistent pricing between CMS content and commerce checkout | Unified personalization layer; consistent experiment assignment; real-time data validation at transaction points |
-| **Access Layer Refresh Lag** | Stale pricing/inventory shown in content | Event-driven access layer refresh; short access key lifetimes for commerce data; real-time validation warnings - see PDP Orchestration with Access Layer Optimization Strategy for more details |
+| **Access Layer Refresh Lag** | Stale pricing/inventory shown in content | Event-driven access layer refresh; short access key lifetimes for commerce data; real-time validation warnings - see [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-cached.md) for more details |
 | **Content/Product Sync Timing** | Content published before product availability | Scheduled publishing workflows; product readiness validation; preview mode restrictions |
 
 
@@ -628,11 +554,6 @@ Fully composed PDP object containing all necessary data for client-side renderin
 ---
 
 ## Success Metrics / KPIs
-> [!NOTE]
-> Provide detailed success metrics or KPIs that support the previously described business goals
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 **Performance Metrics:**
 - Page load time (Time to Interactive) < 2 seconds
@@ -658,11 +579,6 @@ Fully composed PDP object containing all necessary data for client-side renderin
 ---
 
 ## Security & Compliance Notes
-> [!IMPORTANT]
-The warning text and specific legal/security concerns should be included in your recipe
-
-> [!TIP]
-> **PDP Orchestration** example:
 
 > [!WARNING]
 > This list is not exhaustive, and you must do your own due dilligence to ensure you meet the required security and compliance standards for your unique scenario, however, some common aspects to review are:
