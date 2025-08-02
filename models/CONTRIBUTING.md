@@ -15,7 +15,7 @@ The Interoperability TF is responsible for:
 - Define working cadence, best practices, contribution policies, licences, etc.
 - Appointing TF members from among MACH Alliance membership
 - Setting contribution guidelines, including vetting the validity and uniqueness of the contribution. **We may choose to reject patterns that are not recommended or are duplicative of existing contributions.**
- 
+
 ## Feedback
 
 We welcome:
@@ -30,11 +30,11 @@ To start a discussion:
 4. Describe in detail what needs to be changed or added.
 
 - Or simply make a pull request - (Write clean examples that comply with the existing recipe template)
- 
+
 ## Contributor guide
-- Understand the purpose of the project by reading the project description and key definitions of concepts such as entities, recipes, etc. We welcome: 
+- Understand the purpose of the project by reading the project description and key definitions of concepts such as entities, recipes, etc. We welcome:
   - MACH system integrators (SI) and client architects to contribute recipes based on their real-world examples
   - MACH ISVs to contribute recipes and entities based on their domains and integrations with other MACH vendors
 - View the [Guide to creating canonical data models](templates/creating-canonical-data-models.md) in order to understand the folder structure and particularly the [Entity](templates/master-entity-template.md) and [Recipe](templates/master-recipe-template.md) templates for contribution.
 - Examine the roadmap to see which additional domains or use cases need contributions
-- Understand that contributions are documentation of existing concepts and are given to the MACH Alliance and released under the [CC BY 4.0 Licence](LICENCE).
+- Understand that contributions are documentation of existing concepts and are given to the MACH Alliance and released under the [CC BY 4.0 Licence](LICENSE).

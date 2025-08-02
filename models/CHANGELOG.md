@@ -1,6 +1,6 @@
 # MACH Open Data Model Initiative Change Log
 
-## 1.0.0 - Initial release
+## 1.0.0 - 2025-08-06 - Initial release
 
 - Overall project structure and guides
     - Entities

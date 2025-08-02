@@ -180,4 +180,4 @@ erDiagram
 >
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
 >
->  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="https://github.com/machalliance/common-data-model/blob/main/contributing.md">Contributor Guide</a>.
+>  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="../CONTRIBUTING.md">Contributor Guide</a>.

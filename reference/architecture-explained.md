@@ -32,7 +32,7 @@ In essence, MACH is the natural evolution of microservices and serverless archit
 
 There are two key aspects in MACH Architecture: decoupling and composability. Decoupling allows each layer to evolve at its own pace. Composability ensures that you can plug in the best-of-breed solutions at each layer, promoting innovation, agility, and ultimately a better digital experience.
 
-![MACH Alliance Reference architecture diagram medium detail, platform level](<../src/diagrams/MACH Alliance Reference Architecture Diagram - medium.png>)
+![MACH Alliance Reference architecture diagram medium detail, platform level](<../src/diagrams/MACH-Alliance-Reference-Architecture-Diagram-medium.png>)
 
 
 ### Horizontal Integration Layers
@@ -62,7 +62,7 @@ The foundation of the structure, this is where the heavy-lifting systems like ER
 
 Integration, orchestration, and composition are the three key design patterns within the MACH architecture that collectively enable a seamless and agile digital ecosystem. Each plays a critical role in ensuring that the architecture remains both technically robust and aligned with business objectives.
 
-![domain level reference architecture digram, mach](<../src/diagrams/MACH Alliance Reference Architecture Diagram - low.png>)
+![domain level reference architecture digram, mach](<../src/diagrams/MACH-Alliance-Reference-Architecture-Diagram-low.png>)
 
 
 ### Composition: Crafting the User Experience
@@ -123,7 +123,7 @@ In summary, whether you lean towards platform composability for its broad capabi
 
 As you delve into the MACH Reference Architecture for Composable Ecosystems, it's important to contextualize its scope and applicability. This architecture is a comprehensive template, designed to be referential and adaptable across a wide spectrum of business scenarios and industry requirements. It contains an extensive array of platforms and components, meticulously outlined to cover potential digital landscapes. However, it's crucial to recognize that not every element within this reference is a prerequisite for all business ecosystems.
 
-![MACH Alliance Reference architecture diagram high detail version with platform responsibility level defined](<../src/diagrams/MACH Alliance Reference Architecture Diagram - high.png>)
+![MACH Alliance Reference architecture diagram high detail version with platform responsibility level defined](<../src/diagrams/MACH-Alliance-Reference-Architecture-Diagram-high.png>)
 
 We acknowledge that the landscape of technology platforms is vast and varied, with certain solutions being more prevalent or relevant in specific industries. The MACH Reference Architecture, therefore, should not be seen as a checklist to complete, but rather as a repository of possibilities. It’s a blueprint that illustrates the full breadth of what’s possible, allowing you to identify and integrate the components that resonate with your organization's unique needs.
 
