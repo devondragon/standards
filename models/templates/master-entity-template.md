@@ -9,17 +9,21 @@
 > - Be easy to read, extend, and version.
 > - Include both tabular and JSON examples—**samples appear at the top** to streamline developer adoption.
 > - Encourage the use of **utility objects** (e.g., `Address`) for reuse.
-> - Promote the use of **namespaced trait dictionaries** for flexibility and semantic clarity.
+> - Promote the use of **namespaced extension dictionaries** for flexibility and semantic clarity.
 
 
 ## Table of contents
 
-- [Entity purpose](#entity-purpose)
-- [Object: Customer](#object-customer)
-- [Sample Object: Customer](#sample-object-customer)
-- [Sample Object: Address Utility Object](#sample-object-address-utility-object)
-- [Core Components & Relationships](#core-components--relationships)
-- [Typical pitfalls](#typical-pitfalls)
+- [MACH Alliance Canonical Entity Model Template](#mach-alliance-canonical-entity-model-template)
+  - [Entity: `Entity Name`](#entity-entity-name)
+  - [Table of contents](#table-of-contents)
+  - [Purpose](#purpose)
+  - [Object: Object Name](#object-object-name)
+  - [Sample Object: Customer](#sample-object-customer)
+  - [Sample Object: Address Utility Object](#sample-object-address-utility-object)
+  - [Components](#components)
+  - [Typical Relationships](#typical-relationships)
+  - [Typical Pitfalls](#typical-pitfalls)
 ---
 
 ## Purpose
@@ -30,7 +34,7 @@
 > [!TIP]
 >  A **Customer Entity** example is included throughout this template:
 
-A unified customer model that supports both B2B (company) and B2C (individual) use cases. The model is compatible with CDP and CRM-like systems and includes flexible metadata, contact structure, international-ready address support, and cross-platform referenceIds.
+A unified customer model that supports both B2B (company) and B2C (individual) use cases. The model is compatible with CDP and CRM-like systems and includes flexible metadata, contact structure, international-ready address support, and cross-platform external_references.
 
 The Entity describes:
 - Customer identity and classification (person vs company)
@@ -49,18 +53,18 @@ The Entity describes:
 > Define the field names, description and practice within this entity.
 
 
-| Field         | Description | Practice |
-|---------------|-------------|----------|
-| `id`          | Unique identifier in given context (e.g., UUID, slug). | SHOULD |
-| `type`        | Indicates `person` or `company`. | SHOULD |
-| `status`      | Lifecycle status (`active`, `inactive`, `archived`). | SHOULD |
-| `referenceIds`| Dictionary of cross-system IDs (e.g., CRM, ERP, commerce) to ease orchestration logic | SHOULD |
-| `createdAt`   | ISO 8601 creation timestamp. | SHOULD |
-| `updatedAt`   | ISO 8601 update timestamp. | SHOULD |
-| `traits`      | Namespaced dictionary for extension data grouped by concern (e.g., `marketing`, `loyalty`). | RECOMMENDED |
-| `person`      | Object for person data. Only present if `type = person`. | COULD |
-| `company`     | Object for company data. Only present if `type = company`. | COULD |
-| `addresses`   | List of typed addresses. Uses the shared utility object `Address`. | RECOMMENDED |
+| Field                 | Description                                                                                 | Practice    |
+| --------------------- | ------------------------------------------------------------------------------------------- | ----------- |
+| `id`                  | Unique identifier in given context (e.g., UUID, slug).                                      | SHOULD      |
+| `type`                | Indicates `person` or `company`.                                                            | SHOULD      |
+| `status`              | Lifecycle status (`active`, `inactive`, `archived`).                                        | SHOULD      |
+| `external_references` | Dictionary of cross-system IDs (e.g., CRM, ERP, commerce) to ease orchestration logic       | SHOULD      |
+| `created_at`          | ISO 8601 creation timestamp.                                                                | SHOULD      |
+| `updated_at`          | ISO 8601 update timestamp.                                                                  | SHOULD      |
+| `extensions`          | Namespaced dictionary for extension data grouped by concern (e.g., `marketing`, `loyalty`). | RECOMMENDED |
+| `person`              | Object for person data. Only present if `type = person`.                                    | COULD       |
+| `company`             | Object for company data. Only present if `type = company`.                                  | COULD       |
+| `addresses`           | List of typed addresses. Uses the shared utility object `Address`.                          | RECOMMENDED |
 
 ---
 
@@ -74,13 +78,13 @@ The Entity describes:
   "id": "cus_001",
   "type": "person",
   "status": "active",
-  "referenceIds": {
-    "crmContactId": "123456",
+  "external_references": {
+    "crm_contact_id": "123456",
     "commercetools": "customer-98765"
   },
-  "createdAt": "2025-06-01T12:00:00Z",
-  "updatedAt": "2025-06-10T12:30:00Z",
-  "traits": {
+  "created_at": "2025-06-01T12:00:00Z",
+  "updated_at": "2025-06-10T12:30:00Z",
+  "extensions": {
     "marketing": {
       "consent": "optedIn"
     },
@@ -88,12 +92,12 @@ The Entity describes:
       "points": 200,
       "tier": "silver",
       "source": "talonone",
-      "sourceId":"s9df8"
+      "source_id":"s9df8"
     }
   },
   "person": {
-    "firstName": "Emma",
-    "lastName": "Larsen",
+    "first_name": "Emma",
+    "last_name": "Larsen",
     "email": "emma@example.com",
     "phone": "+45 12345678"
   },
@@ -104,7 +108,7 @@ The Entity describes:
         "line1": "Strandvejen 100",
         "city": "Aarhus",
         "region": "Midtjylland",
-        "postalCode": "8000",
+        "postal_code": "8000",
         "country": "DK"
       }
     }
@@ -124,7 +128,7 @@ Utility objects are shared, composable models used across entities eg.: reusing 
   "line2": "c/o Novak",
   "city": "Aarhus",
   "region": "Midtjylland",
-  "postalCode": "8000",
+  "postal_code": "8000",
   "country": "DK"
 }
 ```
@@ -138,12 +142,12 @@ Utility objects are shared, composable models used across entities eg.: reusing 
 > [!NOTE]
 > Define the typical concepts, descritions and source of truth
 
-| Concept     | Description                          | Typical Source of Truth |
-|-------------|--------------------------------------|--------------------------|
-| ID          | Unique customer identifier           | CRM / CDP / Commerce     |
-| ReferenceId | External system identifiers          | Integration Layer        |
-| Traits      | Optional and scoped extensions       | CDP / Loyalty / CRM      |
-| Address     | Customer billing/shipping location   | Commerce / OMS / ERP     |
+| Concept      | Description                        | Typical Source of Truth |
+| ------------ | ---------------------------------- | ----------------------- |
+| ID           | Unique customer identifier         | CRM / CDP / Commerce    |
+| Reference Id | External system identifiers        | Integration Layer       |
+| Extensions   | Optional and scoped extensions     | CDP / Loyalty / CRM     |
+| Address      | Customer billing/shipping location | Commerce / OMS / ERP    |
 
 ## Typical Relationships
 
@@ -165,15 +169,15 @@ erDiagram
 > Define common mistakes and oversights here.
 
 - Not distinguishing between `company` and `person` fields. Keep these clearly separated using nested objects.
-- Overloading a `meta` or `customVariables` field with unstructured data. Use namespaced `traits` instead.
-- Using `zip` or `zipcode`—standardize on `postalCode` per ISO guidelines.
+- Overloading a `meta` or `customVariables` field with unstructured data. Use namespaced `extensions` instead.
+- Using `zip` or `zipcode`—standardize on `postal_code` per ISO guidelines.
 - Forgetting that address records must be immutable on orders or other transactional states for data records. Always store a snapshot: If you saw it, log it.
 
 
 ---
 
 >  This MACH Alliance Canonical Data Model is intentionally __vendor-neutral__ and serves as a foundation for interoperability across composable architectures. It is __continually evolving__ through community contributions, which are reviewed and approved collaboratively.
->  
+>
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
->  
+>
 >  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="https://github.com/machalliance/common-data-model/blob/main/contributing.md">Contributor Guide</a>.

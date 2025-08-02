@@ -1,22 +1,112 @@
 # MACH Open Data Model initiative
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](/changelog.md)
+[![Last Updated](https://img.shields.io/badge/last%20updated-August%202025-green.svg)](.)
+[![Entities](https://img.shields.io/badge/entities-7-orange.svg)](./entities)
+[![Recipes](https://img.shields.io/badge/recipes-2-purple.svg)](./recipes)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+
+> **Last Updated:** August 2025 | **Version:** 1.0.0 | **Status:** Initial Release
+
+## Table of Contents
+- [MACH Open Data Model initiative](#mach-open-data-model-initiative)
+  - [Table of Contents](#table-of-contents)
+  - [What it is](#what-it-is)
+    - [Example: Customer Entity](#example-customer-entity)
+  - [Current status](#current-status)
+  - [Who it's for](#who-its-for)
+  - [Why we are doing this](#why-we-are-doing-this)
+  - [Getting Started](#getting-started)
+    - [Quick Start Guide](#quick-start-guide)
+    - [Core Entities Available](#core-entities-available)
+    - [Popular Recipes](#popular-recipes)
+  - [Contributing](#contributing)
+  - [Format and Philosophy](#format-and-philosophy)
+  - [From Recipes to Real-World Integration](#from-recipes-to-real-world-integration)
+  - [Use these recipes to:](#use-these-recipes-to)
+  - [Implementation Notes](#implementation-notes)
+    - [Attribute Schema Design](#attribute-schema-design)
+  - [Contributors \& Stewardship](#contributors--stewardship)
+
+## What it is
+
+The MACH Alliance Open Data Model (ODM) initiative is the natural next step in enabling interoperability across composable ecosystems. It serves as a semantic interoperability layer - a "Rosetta Stone" for understanding how to translate data between systems in hybrid commerce architectures. It provides canonical reference models and implementation guidance that enable architects to design effective data integration across commerce platforms while preparing organizations for AI-powered ecosystems.
+
+After defining the MACH reference architecture and principles of composability, the next logical foundation is a shared, human-readable data models and recipes that vendors, platforms, and integrators can align around—without requiring tight coupling to any specific technology.
+
+### Example: Customer Entity
+Here's a simple example of what an ODM entity looks like:
+
+```json
+{
+  "id": "cust_123456",
+  "email": "john.doe@example.com",
+  "profile": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "1990-01-15"
+  },
+  "extensions": {
+    "loyalty": {
+      "tier": "gold",
+      "points": 15000
+    }
+  }
+}
+```
+
+This standardized structure works across any CRM, CDP, or commerce platform, eliminating custom mappings for every integration.
+
+## Current status
+
+- **Initial release (August 2025)** - Core project structure with foundational entities (Customer, Order, Product) and initial recipes for common integration patterns
+- **Next planned release (Q4 2025)** - Extended entity coverage including Inventory, Cart, and Pricing models
+- **2026 Roadmap** - AI/Agent communication standards, advanced orchestration patterns
+
+For more information, visit the [Changelog](/changelog.md).
+
+## Who it's for
+
+The entities and recipes are designed to be understood by architects and decision-makers as they are building differentiated implementations. By being vendor-neutral and approach agnostic, these recipes allow stakeholders to understand and contribute to model design **before** implementation by providing real-world knowledge to assist in answering the question:
+> "What are you trying to achieve with your integration?"
+
 ## Why we are doing this
 
-The MACH Open Data Model initiative is the natural next step in enabling interoperability across composable ecosystems. After defining the MACH reference architecture and principles of composability, the next logical foundation is a shared, human-readable data models and recipes that vendors, platforms, and integrators can align around—without requiring tight coupling to any specific technology.
+By documenting how entities such as Customer, Order, Product (and more) interact and best practices for common tasks across vendors (recipes) the MACH Alliance is demystifying how processes and data move between composable applications such as CMS, PIM, CRM, loyalty, and commerce platforms.
 
-These models act as **pivot formats**—neutral reference points that allow MACH-aligned systems to speak the same conceptual language. They enable a consistent understanding of core entities like Customer, Order, Product, Consent, and more across CMS, PIM, CRM, loyalty, and commerce platforms.
+The intent is that these models can be used by architects (either directly, or via LLM tools) to _rapidly_ build composable solutions by having a set of patterns and practices that are known to work for specific scenarios.
 
-Rather than prematurely optimizing for implementation or tooling, these recipes allow stakeholders to understand and contribute to model design **before** answering the question:  
-> “What are you trying to achieve with your integration?”
+## Getting Started
+
+### Quick Start Guide
+1. **New to ODM?** Start with the [Customer entity](entities/customer.md) to understand the structure
+2. **Ready to integrate?** Try the [Order-to-Fulfillment recipe](recipes/order-to-fulfillment.md) for a complete integration example
+3. **Building your model?** Use the [entity template](templates/master-entity-template.md) as your starting point
+
+### Core Entities Available
+- **[Customer](entities/customer.md)** - Unified customer profile across systems
+- **[Order](entities/order.md)** - Order management and fulfillment
+- **[Product](entities/product.md)** - Product information and catalog management
+- **[Inventory](entities/inventory.md)** - Stock levels and availability
+- **[Price](entities/price.md)** - Pricing rules and calculations
+
+### Popular Recipes
+- **[Unified Customer Profile](recipes/unified-customer-profile.md)** - Sync customer data across CRM, CDP, and commerce
+- **[Inventory Synchronization](recipes/real-time-inventory-sync.md)** - Real-time stock updates across channels
+- **[Order Orchestration](recipes/order-to-fulfillment.md)** - Complete order lifecycle management
+
+## Contributing
+
+While the MACH Alliance and members have contributed to the initial effort, this project is also a call-to-action for others to help contribute their knowledge. For more information, visit [How to contribute](./CONTRIBUTING.md).
 
 ---
 
 ## Format and Philosophy
 
-Each [entity](entities) and [recipe](recipes) includes:
+Each [Entity](entities) and [Recipe](recipes) includes:
 - **Markdown formatted documentation (`.md`)** for human or machine-readable documentation, narrative context, and sample use case recipes.
-- **Object definitions and JSON samples** for clear, structured example representation of entities and traits.
-- **Trait-based extensions** to support modularity, reuse, and domain-specific concerns for clearer contextual interoperability.
+- **Object definitions, JSON and YAML samples** for clear, structured example representation of entities and extensions.
+- **Extensions** to support modularity, reuse, and domain-specific concerns for clearer contextual interoperability.
 
 We chose Markdown and JSON for their balance of **accessibility and precision**:
 - **Markdown** enables understanding without context—useful in early alignment or design stages, especially across teams unfamiliar with a given stack or vendor.
@@ -30,13 +120,13 @@ Recipes include greater detail for meeting specific use cases, including:
 - Business objective
 - Typical pitfalls
 - Data flows
- - Actors / Stakeholders
- - Trigger Points / Events
- - Diagrams
+  - Actors / Stakeholders
+  - Trigger Points / Events
+  - Diagrams
 - Systems Involved
-Data Requirements
-Success Metrics / KPIs
-Security & Compliance Notes
+- Data Requirements
+- Success Metrics / KPIs
+- Security & Compliance Notes
 
 > [!TIP]
 > The [recipe template](templates/master-recipe-template.md) contains more details of the format with examples
@@ -44,14 +134,14 @@ Security & Compliance Notes
 ---
 
 ## From Recipes to Real-World Integration
-| Stage | Format/Tool | Best When...|
-|-|-|-|
-| **Design & Understanding**        | Markdown + JSON    | You’re defining the model collaboratively and don’t know the integration goal yet |
-| **Standard Messaging**            | AsyncAPI           | You want ecosystem-wide publish/subscribe contracts (MQTT, Kafka, AMQP)     |
-| **API Contracts**                 | OpenAPI (YAML)     | You are defining synchronous HTTP-based services with stable interfaces      |
-| **Data Validation / Code Gen**    | JSON Schema / TS   | You’re ready for strict validation or scaffolding code                      |
-| **Platform-Specific Automation**  | YAML (e.g. Cloud providers)    | You’re working within a known platform's infrastructure                     |
-| **Orchestration / LLM Integration** | LLM + MCP/A2A    | You have context and goals defined and want to auto-generate runtime logic og agent-toagent information interchange |
+| Stage                               | Format/Tool                 | Best When...                                                                                                         |
+| ----------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Design & Understanding**          | Markdown + JSON             | You’re defining the model collaboratively and don’t know the integration goal yet                                    |
+| **Standard Messaging**              | AsyncAPI                    | You want ecosystem-wide publish/subscribe contracts (MQTT, Kafka, AMQP)                                              |
+| **API Contracts**                   | OpenAPI (YAML)              | You are defining synchronous HTTP-based services with stable interfaces                                              |
+| **Data Validation / Code Gen**      | JSON Schema / TS            | You’re ready for strict validation or scaffolding code                                                               |
+| **Platform-Specific Automation**    | YAML (e.g. Cloud providers) | You’re working within a known platform's infrastructure                                                              |
+| **Orchestration / LLM Integration** | LLM + MCP/A2A               | You have context and goals defined and want to auto-generate runtime logic or agent-to-agent information interchange |
 
 ---
 
@@ -60,16 +150,16 @@ Security & Compliance Notes
 - Align vendors on what "interoperability-ready" actually means
 - Prototype integrations without premature coupling
 - Create compatibility layers across hybrid or legacy systems
-- Seed future YAML schemas, OpenAPI specs, Orchestration layer logic or LLMs
+- Seed future enhancements like OpenAPI specs, orchestration layer logic, or LLM integrations
 
 > [!TIP]
-> These models and recipes are not the end—they’re the beginning of better interoperability.
+> These models and recipes are a starting point to provide a framework for others to contribute entities and recipes in additional domains
 
 ---
 
-## Implementation Notes:
+## Implementation Notes
 
-  **Attribute Schema Design**
+### Attribute Schema Design
 - Design flexible attribute systems that support multiple data types and validation rules
 - Implement conditional attributes based on other attribute values
 - Support localization of attribute labels and validation messages
