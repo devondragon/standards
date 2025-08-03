@@ -15,7 +15,7 @@
 - [Sample Object: BOGO (Buy One Get One) Promotion](#sample-object-bogo-buy-one-get-one-promotion)
 - [Sample Object: Tiered Cart Promotion](#sample-object-tiered-cart-promotion)
 - [Localization Pattern](#localization-pattern)
-- [Core Components & Relationships](#core-components--relationships)
+- [Core Components & Relationships](#core-components-relationships)
 - [Typical pitfalls](#typical-pitfalls)
 
 ---

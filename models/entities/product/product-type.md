@@ -19,7 +19,7 @@
     - [Single Language (Simple String)](#single-language-simple-string)
     - [Multi-Language (Localized Object)](#multi-language-localized-object)
     - [Language Code Standards](#language-code-standards)
-  - [Core Components \& Relationships](#core-components--relationships)
+  - [Core Components \& Relationships](#core-components-relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)

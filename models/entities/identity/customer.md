@@ -19,7 +19,7 @@
     - [Fields Supporting Localization](#fields-supporting-localization)
     - [Example with Localized Extensions](#example-with-localized-extensions)
     - [Language Code Standards](#language-code-standards)
-  - [Core Components \& Relationships](#core-components--relationships)
+  - [Core Components \& Relationships](#core-components-relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)

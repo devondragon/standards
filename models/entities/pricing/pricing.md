@@ -18,7 +18,7 @@
   - [Sample Object: Pricing as a precomputed matrix for Wholesale/B2B](#sample-object-pricing-as-a-precomputed-matrix-for-wholesaleb2b)
   - [Localization Pattern](#localization-pattern)
     - [Fields Supporting Localization](#fields-supporting-localization)
-  - [Core Components \& Relationships](#core-components--relationships)
+  - [Core Components \& Relationships](#core-components-relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)

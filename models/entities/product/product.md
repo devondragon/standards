@@ -20,7 +20,7 @@
   - [Localization Pattern](#localization-pattern)
     - [Single Language (Simple String)](#single-language-simple-string)
     - [Multi-Language (Localized Object)](#multi-language-localized-object)
-  - [Core Components \& Relationships](#core-components--relationships)
+  - [Core Components \& Relationships](#core-components-relationships)
     - [Updated Relationship Diagram](#updated-relationship-diagram)
     - [Typical pitfalls](#typical-pitfalls)
     - [Variant-Specific Pitfalls](#variant-specific-pitfalls)

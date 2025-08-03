@@ -13,7 +13,7 @@
   - [Sample Object: Full Inventory](#sample-object-full-inventory)
   - [Sample Object: Multi-Location Inventory](#sample-object-multi-location-inventory)
   - [Sample Object: Backorder Scenario](#sample-object-backorder-scenario)
-  - [Core Components \& Relationships](#core-components--relationships)
+  - [Core Components \& Relationships](#core-components-relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)

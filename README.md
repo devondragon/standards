@@ -20,9 +20,9 @@
 
 | You are...                             | Start here                                                                                            |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **New to MACH** (MACH-curious) 🌱       | Learn the [core principles](#what-are-mach-principles) and explore [simple recipes](./models/recipes/) |
+| **New to MACH** (MACH-curious) 🌱       | Learn the [core principles](#-what-are-mach-principles) and explore [simple recipes](./models/recipes/) |
 | **Building with MACH** (MACH-active) 🛠️ | Implement [ODM patterns](./models/) and use [reference architectures](#️-reference-architectures)       |
-| **MACH Expert** (MACH-pro) 🚀           | [Contribute](#contributing) advanced patterns and shape future standards                              |
+| **MACH Expert** (MACH-pro) 🚀           | [Contribute](#-contributing) advanced patterns and shape future standards                              |
 
 ## 📊 Open Data Model (ODM)
 

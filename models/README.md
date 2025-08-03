@@ -21,7 +21,7 @@
     - [Understanding the Model Structure](#understanding-the-model-structure)
     - [Entity Coverage Matrix](#entity-coverage-matrix)
     - [Core Entities Available](#core-entities-available)
-      - [Identity \& Customer Data](#identity--customer-data)
+      - [Identity \& Customer Data](#identity-customer-data)
       - [Product Information](#product-information)
       - [Commerce Operations](#commerce-operations)
       - [Utility Objects](#utility-objects)
@@ -32,7 +32,7 @@
   - [Use these recipes to:](#use-these-recipes-to)
   - [Implementation Notes](#implementation-notes)
     - [Attribute Schema Design](#attribute-schema-design)
-  - [Contributors \& Stewardship](#contributors--stewardship)
+  - [Contributors \& Stewardship](#contributors-stewardship)
 
 ## What it is
 
