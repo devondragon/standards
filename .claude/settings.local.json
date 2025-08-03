@@ -3,7 +3,8 @@
     "allow": [
       "Bash(find:*)",
       "Bash(python3:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "mcp__zen__analyze"
     ],
     "deny": []
   }

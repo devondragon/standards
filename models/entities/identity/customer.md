@@ -70,7 +70,7 @@ When implementing customer data architecture, consider these separation of conce
 | --------------------------- | ---------------------------------------------------------------- | ----------- |
 | `id`                        | Unique identifier for the customer                               | MUST        |
 | `type`                      | Customer type (`person` or `company`)                            | MUST        |
-| `status`                    | Lifecycle status (`active`, `inactive`, `suspended`, `archived`) | SHOULD      |
+| `status`                    | Lifecycle status (`active`, `inactive`, `archived`, `suspended`) | SHOULD      |
 | `external_references`       | Dictionary of cross-system IDs (e.g., CRM, ERP, CDP)             | SHOULD      |
 | `created_at`                | ISO 8601 creation timestamp                                      | SHOULD      |
 | `updated_at`                | ISO 8601 update timestamp                                        | SHOULD      |

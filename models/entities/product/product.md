@@ -47,7 +47,7 @@ The Product entity represents the master product information shared across all v
 | --------------------- | --------------------------------------------------------------- | ----------- |
 | `id`                  | Unique identifier for the product                               | MUST        |
 | `type`                | Reference to Product Type for classification                    | SHOULD      |
-| `status`              | Product lifecycle status (`active`, `archived`, `draft`)        | SHOULD      |
+| `status`              | Product lifecycle status (`active`, `inactive`, `archived`, `draft`) | SHOULD      |
 | `external_references` | Dictionary of cross-system IDs (e.g., ERP, PIM)                 | SHOULD      |
 | `created_at`          | ISO 8601 creation timestamp                                     | SHOULD      |
 | `updated_at`          | ISO 8601 update timestamp                                       | SHOULD      |
@@ -80,7 +80,7 @@ The ProductVariant entity represents individual sellable items with specific att
 | `id`                | Unique identifier for the variant                       | MUST     |
 | `product_id`        | Reference to parent product (Option 2 only)             | MUST     |
 | `sku`               | Stock Keeping Unit - unique identifier                  | MUST     |
-| `status`            | Variant status (`active`, `discontinued`)               | SHOULD   |
+| `status`            | Variant status (`active`, `inactive`, `discontinued`)   | SHOULD   |
 | `position`          | Sort order for display purposes                         | SHOULD   |
 | `option_values`     | Array of option/value pairs for this variant            | MUST     |
 | `price`             | Variant pricing                                         | MUST     |

@@ -4,7 +4,7 @@ erDiagram
     %% Core Product relationships
     Product:::entity 1 to 1 "Product Type":::entity : "defined by"
     Product 1 to 1 Category:::entity : "classified by"
-    Product 1 to 1 Catalog:::entity : "belongs to"
+    Product 1 to 1 "Catalog (coming soon)":::entity : "belongs to"
     Product 0+ optionally to 1+ "Product(s)":::shouldRel : "has related"
     Product 0+ optionally to 1+ "Product Variants(s)":::shouldRel : "has variant"
     Product 0+ optionally to 1+ "Media(s)":::couldRel : "has media"
@@ -60,7 +60,7 @@ erDiagram
 - Order History *(coming soon)*
   
 ## Payment
-- Payment
+- Payment *(coming soon)*
 
 ## Pricing
 - [Pricing](pricing/pricing.md)
@@ -79,7 +79,7 @@ erDiagram
 - [Customer](identity/customer.md)
 
 ## Campaign
-- Campaign
+- Campaign *(coming soon)*
 
 ### Utility functions
 - [Address](utilities/address.md)

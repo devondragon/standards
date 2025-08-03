@@ -62,7 +62,7 @@ The Entity describes:
 | `list_price`          | Manufacturer's suggested retail price (MSRP)                    | MUST        |
 | `sale_price`          | Actual selling price to customer                                | MUST        |
 | `type`                | Pricing type (`retail`, `wholesale`, `bulk`)                    | SHOULD      |
-| `status`              | Lifecycle status (`active`, `inactive`, `scheduled`, `expired`) | SHOULD      |
+| `status`              | Lifecycle status (`active`, `inactive`, `archived`, `scheduled`, `expired`) | SHOULD      |
 | `external_references` | Dictionary of cross-system IDs (e.g., ERP, PMS)                 | SHOULD      |
 | `created_at`          | ISO 8601 creation timestamp                                     | SHOULD      |
 | `updated_at`          | ISO 8601 update timestamp                                       | SHOULD      |
@@ -306,7 +306,7 @@ Basic pricing with only required fields.
 ```json
 {
   "id": "PRICE-MIN-001",
-  "product_id": "PROD-SIMPLE",
+  "product_id": "PROD-001",
   "list_price": {
     "amount": 49.99,
     "currency": "USD"
@@ -355,7 +355,8 @@ Basic pricing for a standard retail product with list and sale price distinction
         "amount": 25.00,
         "currency": "EUR"
       },
-      "margin_percentage": 39.8
+      "margin_percentage": 39.8,
+      "source": "erp"
     }
   }
 }
@@ -398,13 +399,15 @@ Pricing associated with a specific marketing campaign.
   "extensions": {
     "campaign": {
       "campaign_name": "Black Friday Sale 2024",
-      "discount_percentage": 20
+      "discount_percentage": 20,
+      "source": "marketing_platform"
     },
     "internal": {
       "cost_price": {
         "amount": 25.00,
         "currency": "EUR"
-      }
+      },
+      "source": "erp"
     }
   }
 }
@@ -771,12 +774,12 @@ Example:
 ```mermaid
 erDiagram
     Pricing:::entity 1 to 1 Product:::entity : "prices"
-    Pricing 1 to 0+ Campaign:::entity : "associated with"
+    Pricing 1 to 0+ "Campaign (coming soon)":::entity : "associated with"
     Pricing 1 to 0+ PriceList:::internalRel : "belongs to"
-    Pricing 1 to 0+ Catalog:::entity : "contextual to"
-    Pricing 1 to 1 Money:::entity : "uses"
+    Pricing 1 to 0+ "Catalog (coming soon)":::entity : "contextual to"
+    Pricing 1 to 1 "Money (coming soon)":::entity : "uses"
     Pricing 1 optionally to 0+ CustomerSegment:::optionalRel : "targets"
-    Pricing 1 optionally to 0+ Channel:::optionalRel : "valid for"
+    Pricing 1 optionally to 0+ "Channel (coming soon)":::optionalRel : "valid for"
     Pricing 1 optionally to 0+ Region:::optionalRel : "applies to"
 
 classDef entity fill:#ffd100, stroke:#ffd100,stroke-width:2px
@@ -824,4 +827,4 @@ classDef optionalRel stroke:#b5b5b5, stroke-dasharray: 1 1, fill:#f3f3f3, stroke
 >
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
 >
->  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="https://github.com/machalliance/common-data-model/blob/main/contributing.md">Contributor Guide</a>.
+>  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="../../CONTRIBUTING.md">Contributor Guide</a>.

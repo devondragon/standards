@@ -59,7 +59,7 @@ The Address utility object provides:
 | ----------------------- | ----------------------------------------------------------------- | ----------- |
 | `id`                    | Unique identifier for the address (when stored)                   | COULD       |
 | `type`                  | Address type (`shipping`, `billing`, `business`, `residential`)   | SHOULD      |
-| `status`                | Address status (`active`, `invalid`, `undeliverable`, `verified`) | COULD       |
+| `status`                | Address status (`active`, `inactive`, `archived`, `verified`, `invalid`, `undeliverable`) | COULD       |
 | `line1`                 | Primary address line (street number and name)                     | MUST        |
 | `line2`                 | Secondary address line (apartment, suite, unit)                   | COULD       |
 | `line3`                 | Additional address line (building, complex name)                  | COULD       |
@@ -825,8 +825,8 @@ The Address utility object supports flexible localization for international comm
 ```mermaid
 erDiagram
     Address:::utility 1 optionally to 1 Customer:::entity : "belongs to"
-    Address 1 to 1 Order:::entity : "ships to"
-    Address 1 to 1 Store:::entity : "located at"
+    Address 1 to 1 "Order (coming soon)":::entity : "ships to"
+    Address 1 to 1 "Store (coming soon)":::entity : "located at"
     Address 1 optionally to 1 TaxJurisdiction:::entity : "determines"
     Address 1 optionally to 1 ShippingZone:::entity : "assigned to"
     Address 1 optionally to 1 Coordinates:::utility : "has"
