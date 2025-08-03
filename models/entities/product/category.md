@@ -14,7 +14,7 @@
   - [Localization Pattern](#localization-pattern)
     - [Single Language (Simple String)](#single-language-simple-string)
     - [Multi-Language (Localized Object)](#multi-language-localized-object)
-  - [Core Components \& Relationships](#core-components-relationships)
+  - [Core Components \& Relationships](#core-components--relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical Pitfalls](#typical-pitfalls)

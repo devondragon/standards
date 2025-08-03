@@ -21,7 +21,7 @@
     - [Multi-Language (Localized Object)](#multi-language-localized-object)
     - [Localizable Fields](#localizable-fields)
     - [Format Considerations by Region](#format-considerations-by-region)
-  - [Core Components \& Relationships](#core-components-relationships)
+  - [Core Components \& Relationships](#core-components--relationships)
     - [Components](#components)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)

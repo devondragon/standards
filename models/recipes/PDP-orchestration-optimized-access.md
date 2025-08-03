@@ -6,15 +6,15 @@
 
 - [Recipe purpose](#recipe-purpose)
 - [Recipe Overview](#recipe-overview)
-- [Actors / Stakeholders](#actors-stakeholders)
-- [Trigger Points / Events](#trigger-points-events)
+- [Actors / Stakeholders](#actors--stakeholders)
+- [Trigger Points / Events](#trigger-points--events)
 - [Recipe Flows](#recipe-flows)
 - [Systems Involved](#systems-involved)
 - [Data Requirements](#data-requirements)
-- [Variants / Alternatives](#variants-alternatives)
-- [Failure Modes / Edge Cases](#failure-modes-edge-cases)
-- [Success Metrics / KPIs](#success-metrics-kpis)
-- [Security & Compliance Notes](#security-compliance-notes)
+- [Variants / Alternatives](#variants--alternatives)
+- [Failure Modes / Edge Cases](#failure-modes--edge-cases)
+- [Success Metrics / KPIs](#success-metrics--kpis)
+- [Security & Compliance Notes](#security--compliance-notes)
 
 ## Recipe Purpose
 

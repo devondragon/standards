@@ -15,7 +15,7 @@
   - [Sample Object: Bulk Generated Coupon](#sample-object-bulk-generated-coupon)
   - [Sample Object: Dynamic Coupon with Real-Time Usage](#sample-object-dynamic-coupon-with-real-time-usage)
   - [Sample Object: Referral Coupon](#sample-object-referral-coupon)
-  - [Core Components \& Relationships](#core-components-relationships)
+  - [Core Components \& Relationships](#core-components--relationships)
     - [Typical Relationships](#typical-relationships)
   - [Typical pitfalls](#typical-pitfalls)
 
