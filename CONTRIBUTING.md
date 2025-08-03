@@ -1,29 +1,63 @@
-# Welcome to the Contribution Guide for the MACH Interoperability Standards Repository
+# Contributing to MACH Alliance Standards
 
-Thanks for your interest in contributing to the MACH Interoperability Standards repository. Before you dive in, please check out these guidelines. Not following them may result in your Pull Request/issue being closed.
+Thank you for your interest in contributing to the MACH Alliance Interoperability Standards repository. This repository contains two distinct types of content with different contribution models:
 
-## Repository Ownership
+## 📂 Repository Structure & Contribution Models
 
-This repository is managed by the MACH Alliance Tech Council and maintained by the Interoperability Standards Task Force led by [@adampnielsen](https://github.com/adampnielsen).
+### 1. Core Standards & Architecture (Restricted)
+**Location**: `/reference/`, `/whitepapers/`, `/src/diagrams/`, root-level docs
 
-## How to Contribute
+These foundational documents are managed by the MACH Alliance Tech Council and require formal approval from the Interoperability Standards Task Force.
 
-The standards in this repository are developed by the MACH Alliance Tech Council. We don't accept external contributions to change them. Each change must be formally approved by the Interoperability Standards Task Force.
+**Contribution Process**:
+- Open an [issue](https://github.com/machalliance/standards/issues/new) for discussion
+- Wait for Task Force review and invitation
+- Submit PR only when explicitly requested
+- **Exception**: Typo fixes and broken links can be submitted directly
 
-However, we welcome feedback. If you think something could be improved, we'd love to hear your thoughts and have an open discussion about it.
+### 2. Open Data Model (Community-Driven)
+**Location**: `/models/` directory
 
-We welcome:
+The ODM welcomes community contributions of production-proven patterns and integrations.
 
-* **Feedback** on existing documents and suggestions for improvements.
-* **Proposals** for new documents describing interoperability standards and best practices for implementing MACH architecture.
+**Contribution Process**:
+- Follow the dedicated [ODM Contribution Guide](/models/CONTRIBUTING.md)
+- Submit PRs directly for entities and recipes
+- Community validation and monthly review process
 
-To start a discussion:
+## 🎯 Quick Reference
 
-1. [Open a new issue](https://github.com/machalliance/standards/issues/new) on this repository.
-2. Link the document you want to discuss.
-3. Explain why this change or addition is needed and what problem it solves.
-4. Describe in detail what needs to be changed or added.
+| What You Want to Do | Where to Go |
+|-------------------|------------|
+| Fix a typo anywhere | Submit PR directly |
+| Propose architecture changes | Open an issue first |
+| Add a new ODM entity/recipe | See [ODM Contributing](/models/CONTRIBUTING.md) |
+| Discuss strategic direction | [MACH Alliance Forum](https://community.machalliance.org/home/forum/boards/special-programs-ous) |
+| Report broken links | Submit PR directly |
+| Suggest whitepaper updates | Open an issue first |
 
-**Please don't submit Pull Requests** unless you're asked to by a repository maintainer (member of the Interoperability Task Force). Pull Requests that don't follow this rule will be closed.
+## 🏛️ Governance
 
-The only exceptions to this rule are typo fixes and broken links.
+### Tech Council & Task Force
+- **Tech Council**: Sets strategic direction for all standards
+- **Task Force Lead**: [@adampnielsen](https://github.com/adampnielsen)
+- **ODM Maintainers**: Review and curate data model contributions
+
+### Decision Authority
+- **Core Standards**: Task Force approval required
+- **ODM Patterns**: Maintainer review with community validation
+- **Minor Fixes**: Automated or expedited review
+
+## 💬 Getting Involved
+
+1. **Strategic Discussions**: [MACH Alliance Community Forum](https://community.machalliance.org/home/forum/boards/special-programs-ous)
+2. **Technical Issues**: [GitHub Issues](https://github.com/machalliance/standards/issues/new)
+3. **ODM Patterns**: [ODM Contribution Guide](/models/CONTRIBUTING.md)
+
+## 📜 License
+
+All contributions are released under [CC BY 4.0](LICENSE). By contributing, you agree to this license.
+
+---
+
+**Remember**: Different parts of this repository have different contribution processes. When in doubt, open an issue first!

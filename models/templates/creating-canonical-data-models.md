@@ -10,7 +10,7 @@ Models built using this guide should:
 - Be easy to review and reason about  
 - Capture shared understanding across systems and teams  
 - Emphasize reuse via **utility objects**
-- Isolate context-specific extensions via **traits**  
+- Isolate context-specific extensions via **extensions**  
 - Encourage minimalism: not every use case needs to be modeled into the entity itself  
 
 ---
@@ -24,7 +24,7 @@ Each model:
 - Promotes semantic clarity and shared understanding
 - Avoids unnecessary detail and complexity
 - Encourages consistent use of utility objects (e.g. `Address`)
-- Uses `traits` for context-specific, namespaced extensions
+- Uses `extensions` for context-specific, namespaced extensions
 
 Use the [Entity Model Template](master-entity-template.md) as baseline
 
@@ -34,7 +34,7 @@ Use the [Entity Model Template](master-entity-template.md) as baseline
 - Less is more: Avoid modeling everything—focus on what is shared
 - Composable by design: Prefer small, stable objects over large, rigid schemas
 - Versionable and explainable: Make the model clear to non-engineers
-- Traits over meta: Use structured traits, not catch-all `meta` blobs
+- Extensions over meta: Use structured extensions, not catch-all `meta` blobs
 
 ### 2. Use Utility Objects
 
@@ -43,35 +43,35 @@ Do not redefine their structure inside the model.
 
 ---
 
-### 3. Structure approach: Traits by Concern or schema first
+### 3. Structure approach: Extensions by Concern or schema first
 
-Use traits to group optional data under namespaces like:
+Use extensions to group optional data under namespaces like:
 - `marketing`
 - `loyalty`
 - `service`
-... and provide json examples of `trait.service`.
+... and provide json examples of `extension.service`.
 
-Each trait should:
+Each extension should:
 - Have a clear domain responsibility
 - Include a `source` key
 - Be optional and additive
 
-Trait schema validation, where needed:
-- Alternatively all traits could be entensible objects. This can aid implementatoin and schema validation.
+Extension schema validation, where needed:
+- Alternatively all extensions could be extensible objects. This can aid implementation and schema validation.
 
 
 
 ---
 
-#### Canonical Schema: Traits - the key interoperable ingredient
+#### Canonical Schema: Extensions - the key interoperable ingredient
 
-Use `traits` to support semantic grouping of optional fields in a structured and extensible way.
+Use `extensions` to support semantic grouping of optional fields in a structured and extensible way.
 
-> `traits` is a dictionary of namespaced objects that allows each domain (e.g., marketing, loyalty, service) to manage its own data cleanly—without polluting the core schema.
+> `extensions` is a dictionary of namespaced objects that allows each domain (e.g., marketing, loyalty, service) to manage its own data cleanly—without polluting the core schema.
 
 #### Declaring Source Systems
-When using `traits` to extend a canonical entity model, we recommended including the **source system**—the system of authority where the data is stored or managed.
-Declaring `source` inside each trait aims to ensure your MACH architecture remains reliable, composable, and conflict-free. Standardize it across your model for future-proof interoperability.
+When using `extensions` to extend a canonical entity model, we recommended including the **source system**—the system of authority where the data is stored or managed.
+Declaring `source` inside each extension aims to ensure your MACH architecture remains reliable, composable, and conflict-free. Standardize it across your model for future-proof interoperability.
 
 This improves:
 - **Traceability** – Understand where a value comes from
@@ -79,24 +79,24 @@ This improves:
 - **Interoperability** – Enable safe round-tripping across MACH services, systems and interfaces
 - **Conflict resolution** – Avoid overwrites from the wrong system - or at least dettect them.
 
-#### Traits Structure
+#### Extensions Structure
 
-Include a `source` field at the trait or sub-trait level:
+Include a `source` field at the extension or sub-extension level:
 
 ```json
-"traits": {
+"extensions": {
   "namespace": {
     "field": "value",
     "source": "system-name"
   }
 }
 ```
-#### Traits Examples
+#### Extensions Examples
 
 ##### Availability (channel, geography)
 
 ```json
-"traits": {
+"extensions": {
   "availability": {
     "channelAvailability": ["web","store"],
     "regionAvailability": ["EU"]
@@ -107,7 +107,7 @@ Include a `source` field at the trait or sub-trait level:
 ##### Marketing Consent
 
 ```json
-"traits": {
+"extensions": {
   "marketing": {
     "consentStatus": "optedIn",
     "consentGivenAt": "2025-01-12T09:34:00Z",
@@ -120,7 +120,7 @@ Include a `source` field at the trait or sub-trait level:
 ##### Order Status
 
 ```json
-"traits": {
+"extensions": {
   "order": {
     "pendingStatus": "awaitingFulfillment",
     "lastSynced": "2025-06-01T10:22:00Z",
@@ -132,7 +132,7 @@ Include a `source` field at the trait or sub-trait level:
 ##### Loyalty
 
 ```json
-"traits": {
+"extensions": {
   "loyalty": {
     "tier": "gold",
     "points": 3500,
@@ -150,8 +150,8 @@ Include a `source` field at the trait or sub-trait level:
 |----------|---|
 | Are utility objects reused? | ? |
 | Is the model lean and readable? | ? |
-| Are traits used for non-core fields? | ? |
-| Does each trait declare its source system? | ? |
+| Are extensions used for non-core fields? | ? |
+| Does each extension declare its source system? | ? |
 | Will it work across 80% of known use cases? | ? |
 | Are edge cases handled in examples, not schema? | ? |
 
@@ -168,7 +168,7 @@ Include a `source` field at the trait or sub-trait level:
 | `referenceIds`| Map of external system IDs to ease orchestration logic | SHOULD |
 | `createdAt`   | ISO 8601 creation timestamp. | SHOULD |
 | `updatedAt`   | ISO 8601 update timestamp. | SHOULD |
-| `traits`      | Namespaced dictionary grouped by domain concern. | RECOMMENDED |
+| `extensions`  | Namespaced dictionary grouped by domain concern. | RECOMMENDED |
 | `person`      | Object if `type = person`. | COULD |
 | `company`     | Object if `type = company`. | COULD |
 | `addresses`   | List of typed addresses (via utility object). | RECOMMENDED |
@@ -188,7 +188,7 @@ Include a `source` field at the trait or sub-trait level:
   },
   "createdAt": "2025-06-01T12:00:00Z",
   "updatedAt": "2025-06-10T12:30:00Z",
-  "traits": {
+  "extensions": {
     "marketing": {
       "consent": "optedIn",
       "source": "voyado"
@@ -222,7 +222,7 @@ Include a `source` field at the trait or sub-trait level:
 
 ### sample JSON of alternative structure 
 This approach can easily be validated by a schema.
->References are always of an object that must have type and id and `traits` are in this sample an object with type and values.
+>References are always of an object that must have type and id and `extensions` are in this sample an object with type and values.
 
 ```json
 {
@@ -241,7 +241,7 @@ This approach can easily be validated by a schema.
     ],
     "createdAt": "2025-06-01T12:00:00Z",
     "updatedAt": "2025-06-10T12:30:00Z",
-    "traits": [  // Traits are always of an object that must have type and values
+    "extensions": [  // Extensions are always of an object that must have type and values
         {
             "type": "marketing",
             "values": [ // Values are always an object that must have name and value

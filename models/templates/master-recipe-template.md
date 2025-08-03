@@ -206,7 +206,7 @@ sequenceDiagram
 ## Systems Involved
 
 > [!IMPORTANT]
-> Align with the MACH Reference Architecture: > https://github.com/machalliance/standards/blob/main/src/diagrams/MACH%20Alliance%20Reference%20Architecture%20Diagrams-rev1.4.pdf
+> Align with the MACH Reference Architecture: > ../../src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf
 
 > [!TIP]
 > **PDP Orchestration** example:
@@ -233,7 +233,7 @@ sequenceDiagram
 > * Data lineage: where it’s stored, how it flows 
 > * Privacy/PII considerations
 >
-> Inputs and Outputs should link to entities (if they exist - if they do not exist, you should create one - see [How to Contribute](/common-data-model/contributing.md#how-to-contribute)).
+> Inputs and Outputs should link to entities (if they exist - if they do not exist, you should create one - see [How to Contribute](../CONTRIBUTING.md)).
 
 
 > [!TIP]

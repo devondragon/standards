@@ -50,10 +50,14 @@
 **Purpose**: Current lifecycle state of the entity  
 **Type**: string (enum)  
 **Practice**: SHOULD  
-**Common Values**: `active`, `inactive`, `draft`, `archived`, `published`, `discontinued`  
-**Examples**: Cart: `active`, `completed`, `abandoned`; [Product](product/product.md): `active`, `archived`, `draft`  
+**Standard Values**: `active`, `inactive`, `archived`  
+**Entity-Specific Extensions**: 
+  - Product: Add `draft` for unpublished items
+  - Order: Add `completed`, `cancelled`, `processing`
+  - Address: Add `verified`, `invalid` for validation states
+**Examples**: [Product](product/product.md): `active`, `inactive`, `archived`, `draft`  
 **Used in**: All major entities  
-**Notes**: Controls visibility and business logic, entity-specific values
+**Notes**: Always include standard three values. Add entity-specific values only when needed
 
 ### `type`
 **Purpose**: Classification or category of the entity  
@@ -67,7 +71,7 @@
 
 ## Time-related Fields
 
-For a full understanding, consult the [Timestamp](utilities/timestamp.md) utility object.
+For a full understanding of timestamp formats and standards, see ISO 8601 specification.
 
 ### `created_at`
 **Purpose**: Timestamp when the entity was created  
@@ -85,21 +89,37 @@ For a full understanding, consult the [Timestamp](utilities/timestamp.md) utilit
 **Used in**: All entities  
 **Notes**: Enables change tracking and cache invalidation
 
-### `valid_from` / `start_date`
-**Purpose**: When the entity becomes active or valid  
+### `valid_from`
+**Purpose**: Start of temporal validity period  
 **Type**: ISO 8601 timestamp  
 **Practice**: RECOMMENDED  
-**Examples**: Campaign start, pricing validity, promotion activation  
-**Used in**: Campaign, Pricing, Promotion, Coupon Instance  
-**Notes**: Supports scheduled activation and time-based business rules
+**Examples**: Price validity start, promotion validity, contract validity  
+**Used in**: Pricing, Promotion, Contract, License  
+**Notes**: Use for temporal validity periods (when something is applicable/valid)
 
-### `valid_to` / `end_date` / `expires_at`
-**Purpose**: When the entity expires or becomes invalid  
+### `valid_to`
+**Purpose**: End of temporal validity period  
 **Type**: ISO 8601 timestamp  
 **Practice**: RECOMMENDED  
-**Examples**: Campaign end, cart expiration, coupon expiry  
-**Used in**: Campaign, Pricing, Promotion, Coupon Instance, Cart  
-**Notes**: Enables automatic cleanup and expiration handling
+**Examples**: Price validity end, promotion expiry, contract end  
+**Used in**: Pricing, Promotion, Contract, License  
+**Notes**: Paired with `valid_from` for validity periods
+
+### `starts_at` / `ends_at`
+**Purpose**: Event or activity scheduling  
+**Type**: ISO 8601 timestamp  
+**Practice**: RECOMMENDED  
+**Examples**: Campaign execution, sale event, maintenance window  
+**Used in**: Campaign, Event, Appointment  
+**Notes**: Use for scheduled activities/events, not validity periods
+
+### `expires_at`
+**Purpose**: Single expiration point (not a range)  
+**Type**: ISO 8601 timestamp  
+**Practice**: RECOMMENDED  
+**Examples**: Cart expiration, session timeout, token expiry  
+**Used in**: Cart, Session, Token, Coupon Instance  
+**Notes**: Use when something expires and becomes invalid
 
 ---
 
@@ -115,14 +135,14 @@ For a full understanding, consult the [Language](utilities/language.md) utility 
 **Used in**: Product, Category, Campaign, Promotion  
 **Notes**: Supports rich content and multiple languages
 
-### `language` / `locale`
-**Purpose**: Language and regional settings  
-**Type**: string or language object  
+### `locale`
+**Purpose**: Language and regional settings combined  
+**Type**: string  
 **Practice**: SHOULD  
-**Format**: ISO 639-1 language codes, BCP 47 locale identifiers  
-**Examples**: `"en-US"`, `"es-ES"`, `"fr-FR"`  
-**Used in**: Store, Language utility, localized content  
-**Notes**: Essential for internationalization and localization
+**Format**: BCP 47 locale identifiers (language-region)  
+**Examples**: `"en-US"`, `"es-ES"`, `"fr-FR"`, `"pt-BR"`  
+**Used in**: Store, Language utility, localized content, user preferences  
+**Notes**: Combines language and region for complete localization context. Preferred over separate language/region fields
 
 ---
 
@@ -148,7 +168,7 @@ For a full understanding, consult the [Language](utilities/language.md) utility 
 
 ## Financial Fields
 
-For a full understanding, consult the [Money](utilities/money.md) utility object.
+For a full understanding of money handling, amounts should follow standard decimal practices with currency codes as per ISO 4217.
 
 ### `amount`
 **Purpose**: Monetary value amount  
@@ -250,9 +270,10 @@ Any relationship between entities should be prefixed by the domain you are linki
 - `_total` suffix for calculated sums: `grand_total`, `tax_total`
 
 ### Boolean Fields
+- Use `is_` prefix for state/status booleans: `is_active`, `is_verified`, `is_published`
 - Positive phrasing: `is_active` instead of `is_inactive`
-- Action-oriented: `trackable`, `stackable`, `backorderable`
-- Permission-oriented: `allowed`, `enabled`, `required`
+- Action-oriented capabilities can omit prefix: `trackable`, `stackable`, `backorderable`
+- Permission-oriented can omit prefix: `allowed`, `enabled`, `required`
 
 ### Collection Fields
 - Plural nouns for arrays: `variants`, `categories`, `addresses`
@@ -278,6 +299,8 @@ Fields supporting localization can accept either:
 - Always include `source` field in extension objects
 - Namespace by domain: `analytics`, `seo`, `marketing`, `inventory`
 - Prefer extensions over core schema modifications
+- Structure: `{"namespace": {"field": "value", "source": "system_name"}}`
+- Avoid flat extensions or deeply nested structures
 
 ---
 

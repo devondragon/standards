@@ -32,7 +32,7 @@ To deliver a fast, reliable, and fully populated Product Detail Page (PDP) by or
 - Enable non-dev marketing updates to product content
 - Enable personalized or contextual PDP content with optimized data views
 - Streamline cross-channel consistency (web, mobile, kiosk)
-  
+
 **KPI tie-ins:** Conversion rate, average order value (AOV), content engagement metrics, page load time, SEO rankings, content publish velocity, system reliability, cost reduction.
 
 ---
@@ -69,17 +69,17 @@ The access layer optimization strategy implements a multi-tier approach to data 
 
 #### Comprehensive Access Layer Tiers & Data Types
 
-| **Access Layer Tier** | **Access Strategy** | **Data Type** | **TTL (if applicable)** | **Freshness Strategy** |
-|-----------------|---------------|---------------|---------|---------------------------|
-| **CDN/Edge** | Cache | Static assets, pre-rendered HTML, composed PDP responses | 24h – 7d | Time-based + deployment invalidation |
-| **Frontend (Browser)** | Cache | UI state, filters, cart, preferences, session data | Session/local | User-driven refresh |
-| **Orchestration Layer** | Access Layer Model (Index + Cache) | Composed product views, contextual personalization, business logic | 1h – 6h or event-based | Indexed on-write + cache on-read |
-| **Real-Time Data Services** | Direct API Call | Inventory, pricing, availability, promotions | N/A | Always fresh, bypasses access layer |
-| **Search/Discovery Engine** | Index | Searchable product records, faceted navigation data | Near real-time | Write-time sync via event bus or job |
-| **CMS Delivery API** | Cache (Edge/CDN) | Content modules, PDP copy, marketing content | 2h – 24h | Purged via webhook or publish event |
-| **Application Layer** | Hybrid (Cache + Index) | Product catalog, category hierarchies, attributes | 30min-2h | Event-driven + time-based |
-| **Database Layer** | Index | Raw product data, relationships, metadata | 15min-1h | Database-level indexing + query optimization |
-| **Session Layer** | Cache | User-specific data, personalization context | Session | User action-based + session expiry |
+| **Access Layer Tier**       | **Access Strategy**                | **Data Type**                                                      | **TTL (if applicable)** | **Freshness Strategy**                       |
+| --------------------------- | ---------------------------------- | ------------------------------------------------------------------ | ----------------------- | -------------------------------------------- |
+| **CDN/Edge**                | Cache                              | Static assets, pre-rendered HTML, composed PDP responses           | 24h – 7d                | Time-based + deployment invalidation         |
+| **Frontend (Browser)**      | Cache                              | UI state, filters, cart, preferences, session data                 | Session/local           | User-driven refresh                          |
+| **Orchestration Layer**     | Access Layer Model (Index + Cache) | Composed product views, contextual personalization, business logic | 1h – 6h or event-based  | Indexed on-write + cache on-read             |
+| **Real-Time Data Services** | Direct API Call                    | Inventory, pricing, availability, promotions                       | N/A                     | Always fresh, bypasses access layer          |
+| **Search/Discovery Engine** | Index                              | Searchable product records, faceted navigation data                | Near real-time          | Write-time sync via event bus or job         |
+| **CMS Delivery API**        | Cache (Edge/CDN)                   | Content modules, PDP copy, marketing content                       | 2h – 24h                | Purged via webhook or publish event          |
+| **Application Layer**       | Hybrid (Cache + Index)             | Product catalog, category hierarchies, attributes                  | 30min-2h                | Event-driven + time-based                    |
+| **Database Layer**          | Index                              | Raw product data, relationships, metadata                          | 15min-1h                | Database-level indexing + query optimization |
+| **Session Layer**           | Cache                              | User-specific data, personalization context                        | Session                 | User action-based + session expiry           |
 
 #### Detailed Access Strategy Descriptions
 
@@ -267,7 +267,7 @@ What initiates this recipe?
 - Content deployment triggers commerce data validation
 - Scheduled content publication workflows
 - Periodic product catalog synchronization (e.g., nightly batch updates)
-- Other access layer refresh intervals as noted in the [Access Layer Optimization Strategy Overview](#access-layer-optimization-strategy-overview) section 
+- Other access layer refresh intervals as noted in the [Access Layer Optimization Strategy Overview](#access-layer-optimization-strategy-overview) section
 
 ---
 
@@ -288,13 +288,13 @@ sequenceDiagram
 
     UI->>AL: Request PDP
     AL->>AL: Check optimized data view
-    
+
     alt Access Layer HIT (Full Page)
         AL-->>UI: Return optimized PDP
     else Access Layer MISS or Partial
         AL->>OR: Request PDP assembly
         OR->>AC: Check application layer
-        
+
         alt Application Layer HIT
             AC-->>OR: Return optimized product data
             OR->>INV: Fetch real-time pricing/inventory
@@ -304,20 +304,20 @@ sequenceDiagram
             OR->>CE: Fetch product info
             OR->>CMS: Fetch content slots
             OR->>INV: Fetch real-time pricing/inventory
-            
+
             CE-->>OR: Return product info
             CMS-->>OR: Return content slots
             INV-->>OR: Return pricing/inventory
-            
+
             OR->>OR: Compose full PDP response
             OR->>AC: Store composed data (selective optimization)
         end
-        
+
         OR-->>AL: Return assembled PDP
         AL->>AL: Optimize response (with appropriate access key lifetime)
         AL-->>UI: Return PDP
     end
-    
+
     Note over AR: Background Process
     AR->>CE: Monitor product changes
     CE-->>AR: Product update event
@@ -329,32 +329,32 @@ sequenceDiagram
 
 ## Systems Involved
 
-| **System**          | **Role**                           | **Owner**             | **Access Layer Tier** |
-| ------------------- | ---------------------------------- | --------------------- | --------------- |
-| Commerce Engine     | Core product data, SKU, attributes | Product / Engineering | Application Layer (1-6h) |
-| CMS                 | PDP content slots, copy, assets    | Marketing / CMS Team  | Edge (24h) + Application Layer (2h) |
-| Inventory Service   | Real-time availability data        | Operations / Supply   | No Optimization (Real-time) |
-| Pricing Engine      | Contextual and promotional pricing | Pricing / Product     | No Optimization (Real-time) |
-| Orchestration Layer | Aggregates all service responses   | Architecture / API    | Orchestrates access layer optimization |
-| Edge/Global Access Layer | Static assets, composed responses  | Infrastructure Team   | 24h-7d access key lifetime |
-| Application Layer   | Composed objects, business logic   | Architecture / API    | 1h-6h access key lifetime |
-| Access Layer Refresh | Manages data view refresh strategies   | Architecture / API    | Event-driven |
-| UI / Frontend       | Renders the final PDP experience   | Frontend Team         | Browser optimization |
+| **System**               | **Role**                             | **Owner**             | **Access Layer Tier**                  |
+| ------------------------ | ------------------------------------ | --------------------- | -------------------------------------- |
+| Commerce Engine          | Core product data, SKU, attributes   | Product / Engineering | Application Layer (1-6h)               |
+| CMS                      | PDP content slots, copy, assets      | Marketing / CMS Team  | Edge (24h) + Application Layer (2h)    |
+| Inventory Service        | Real-time availability data          | Operations / Supply   | No Optimization (Real-time)            |
+| Pricing Engine           | Contextual and promotional pricing   | Pricing / Product     | No Optimization (Real-time)            |
+| Orchestration Layer      | Aggregates all service responses     | Architecture / API    | Orchestrates access layer optimization |
+| Edge/Global Access Layer | Static assets, composed responses    | Infrastructure Team   | 24h-7d access key lifetime             |
+| Application Layer        | Composed objects, business logic     | Architecture / API    | 1h-6h access key lifetime              |
+| Access Layer Refresh     | Manages data view refresh strategies | Architecture / API    | Event-driven                           |
+| UI / Frontend            | Renders the final PDP experience     | Frontend Team         | Browser optimization                   |
 
 ---
 
 ## Data Requirements
 
-| **Entity**          | **Function**                            | **Access Layer Strategy** |
-| ------------------- | --------------------------------------- | ------------------------- |
-| [Product](../entities/product/product.md)    | Input - ID or SKU (typically provided via URL) and outputted product info | Application Layer (1-6h) |
-| [Language](../entities/utilities/language.md)    |  Input (optional) - Language/locale/culture information | Session Layer |
-| Customer Segment    | Input (optional) - additional context for personalization | Session Layer |
-| [Inventory](../entities/inventory/inventory.md) | Output - Real-time stock availability | No Caching (Real-time) |
-| [Pricing](../entities/pricing/pricing.md) | Output - Contextual pricing information | No Caching (Real-time) |
-| [Promotion](../entities/promotion/promotion.md) | Output - Active promotions and discounts | Application Layer (30min) |
-| [Media](../entities/utilities/media.md) | Output - Product images, videos, and 3D assets | CDN/Edge (7d) |
-| [Category](../entities/product/category.md) | Output - Product category hierarchy | Application Layer (2h) |
+| **Entity**                                      | **Function**                                                              | **Access Layer Strategy** |
+| ----------------------------------------------- | ------------------------------------------------------------------------- | ------------------------- |
+| [Product](../entities/product/product.md)       | Input - ID or SKU (typically provided via URL) and outputted product info | Application Layer (1-6h)  |
+| [Language](../entities/utilities/language.md)   | Input (optional) - Language/locale/culture information                    | Session Layer             |
+| Customer Segment                                | Input (optional) - additional context for personalization                 | Session Layer             |
+| [Inventory](../entities/inventory/inventory.md) | Output - Real-time stock availability                                     | No Caching (Real-time)    |
+| [Pricing](../entities/pricing/pricing.md)       | Output - Contextual pricing information                                   | No Caching (Real-time)    |
+| [Promotion](../entities/promotion/promotion.md) | Output - Active promotions and discounts                                  | Application Layer (30min) |
+| [Media](../entities/utilities/media.md)         | Output - Product images, videos, and 3D assets                            | CDN/Edge (7d)             |
+| [Category](../entities/product/category.md)     | Output - Product category hierarchy                                       | Application Layer (2h)    |
 
 ### Data Flow Details
 
@@ -374,7 +374,7 @@ sequenceDiagram
 - Marketing content from CMS (cached at Edge)
 
 **Output:**
-Fully composed PDP object with optimal caching strategy per data type.  
+Fully composed PDP object with optimal caching strategy per data type.
 
 #### Example composed object output
 > [!NOTE]
@@ -404,7 +404,7 @@ Fully composed PDP object with optimal caching strategy per data type.
 
 #### Privacy/PII Considerations *(Enhanced)*
 
-**Minimal case:** 
+**Minimal case:**
 - Anonymous session data with optimized base content
 - Regional access layer optimization respects geographic data rules
 
@@ -473,16 +473,16 @@ graph TD
 
 ## Failure Modes / Edge Cases
 
-| **Scenario** | **Impact** | **Mitigation Strategy** |
-|--------------|------------|-------------------------|
-| **Access Layer Refresh Failure** | Stale data served to customers | Multiple refresh channels; manual purge capabilities; access key lifetime as fallback |
-| **Access Layer Stampede** | Multiple requests trigger expensive backend calls simultaneously | Access layer lock mechanisms; background refresh; stale-while-revalidate patterns |
-| **Partial Access Layer Corruption** | Mixed fresh/stale data in responses | Access layer validation checksums; atomic access layer updates; rollback mechanisms |
-| **Access Layer Server Outage** | Performance degradation but service continues | Multi-tier access layer redundancy; automatic access layer bypass; graceful degradation |
-| **Access Layer Memory Exhaustion** | Access layer eviction of important data | Access layer size monitoring; LRU eviction policies; access layer tier optimization |
-| **Regional Access Layer Sync Issues** | Inconsistent data across regions | Event-driven global access layer refresh; monitoring access layer consistency |
-| **Real-time Data Service Failure** | Optimized data without current pricing/inventory | Fallback to optimized pricing with staleness indicators; error messaging |
-| **Access Layer Key Collision** | Wrong data served to users | Unique access layer key generation; access layer key validation; namespace isolation |
+| **Scenario**                          | **Impact**                                                       | **Mitigation Strategy**                                                                 |
+| ------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **Access Layer Refresh Failure**      | Stale data served to customers                                   | Multiple refresh channels; manual purge capabilities; access key lifetime as fallback   |
+| **Access Layer Stampede**             | Multiple requests trigger expensive backend calls simultaneously | Access layer lock mechanisms; background refresh; stale-while-revalidate patterns       |
+| **Partial Access Layer Corruption**   | Mixed fresh/stale data in responses                              | Access layer validation checksums; atomic access layer updates; rollback mechanisms     |
+| **Access Layer Server Outage**        | Performance degradation but service continues                    | Multi-tier access layer redundancy; automatic access layer bypass; graceful degradation |
+| **Access Layer Memory Exhaustion**    | Access layer eviction of important data                          | Access layer size monitoring; LRU eviction policies; access layer tier optimization     |
+| **Regional Access Layer Sync Issues** | Inconsistent data across regions                                 | Event-driven global access layer refresh; monitoring access layer consistency           |
+| **Real-time Data Service Failure**    | Optimized data without current pricing/inventory                 | Fallback to optimized pricing with staleness indicators; error messaging                |
+| **Access Layer Key Collision**        | Wrong data served to users                                       | Unique access layer key generation; access layer key validation; namespace isolation    |
 
 ---
 
@@ -575,7 +575,7 @@ graph TD
 - Security alerts for cache access anomalies
 
 >  This MACH Alliance Canonical Data Model is intentionally __vendor-neutral__ and serves as a foundation for interoperability across composable architectures. It is __continually evolving__ through community contributions, which are reviewed and approved collaboratively.
->  
+>
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
->  
+>
 >  We welcome and encourage continued improvements through community input.

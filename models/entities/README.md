@@ -4,7 +4,7 @@ erDiagram
     %% Core Product relationships
     Product:::entity 1 to 1 "Product Type":::entity : "defined by"
     Product 1 to 1 Category:::entity : "classified by"
-    Product 1 to 1 Catalog:::entity : "belongs to"
+    Product 1 to 1 "Catalog (coming soon)":::entity : "belongs to"
     Product 0+ optionally to 1+ "Product(s)":::shouldRel : "has related"
     Product 0+ optionally to 1+ "Product Variants(s)":::shouldRel : "has variant"
     Product 0+ optionally to 1+ "Media(s)":::couldRel : "has media"
@@ -49,18 +49,18 @@ erDiagram
 ## Product
 - [Product](product/product.md)
 - [Product Type](product/product-type.md)
-- [Catalog](product/catalog.md)
+- Catalog *(coming soon)*
 - [Category](product/category.md)
 
 ## Cart
-- [Cart](cart/cart.md)
+- Cart *(coming soon)*
 
 ## Order
-- [Order](order/order.md)
-- [Order History](order/order-history.md)
+- Order *(coming soon)*
+- Order History *(coming soon)*
   
 ## Payment
-- Payment
+- Payment *(coming soon)*
 
 ## Pricing
 - [Pricing](pricing/pricing.md)
@@ -76,17 +76,17 @@ erDiagram
 - Shipping Method
 
 ## Identity
-- Customer
+- [Customer](identity/customer.md)
 
 ## Campaign
-- Campaign
+- Campaign *(coming soon)*
 
 ### Utility functions
-- Address
-- Channel
-- Contact
-- Identifier
+- [Address](utilities/address.md)
+- Channel *(coming soon)*
+- Contact *(coming soon)*
+- Identifier *(coming soon)*
 - [Language](utilities/language.md)
 - [Media](utilities/media.md)
-- Money
-- Store
+- Money *(coming soon)*
+- Store *(coming soon)*

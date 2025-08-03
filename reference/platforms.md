@@ -1,40 +1,79 @@
-
 # Platforms
 
-| Platform   | Description                           |
-|------------|---------------------------------------|
-| Commerce   | Commerce engine                       |
-| PIM        | Product Information Management        |
-| PSP        | Payment services provider             |
-| CMS        | Content Management System             |
-| DAM        | Digital Asset Management              |
-| MA         | Marketing Automation                  |
-| POS        | Point of Sale                         |
-| Search     | Search and Discoverability            |
-| Recommendation     | Content or product recommendation                       |
-| Customer Service   | Customer Service / Help Desk Platform |
-| CDX        | Content Federation                    |
-| BFF        | Backend for Frontend                  |
-| CDP        | Customer Data Platform                |
-| ERP        | Enterprise Resource Planning          |
-| OMS        | Order Management System               |
-| TMS        | Transport Management Platform         |
-| CRM        | Customer Relationship Management      |
-| IAM        | Identity and Access Management        |
-| DWH        | Data Warehouse                        |
-| CPQ        | Configure, Price, Quote               |
-| WMS        | Warehouse Management System           |
-| PLM        | Product Lifecycle Management          |
-| QMS        | Quality Management System             |
-| DWS        | Data Warehousing Service              |
-| ESB        | Enterprise Service Bus                |
-| CDN        | Content Delivery Network              |
-| Event      | Broker/MQ (Message Queue)             |
-| iPaaS      | Integration Platform as a Service     |
-| BI         | Business Intelligence & Analytics     |
-| DL         | Data Lake                             |
-| DXO        | Digital Experience Orchestration      |
-| FSM        | Field Service Management              |
-| IoT        | Internet of Things                    |
-| LMS        | Learning Management System            |
-| WAF        | Web Application Firewall              |
+## Commerce Core
+| Platform | Description                    |
+| -------- | ------------------------------ |
+| BNPL     | Buy Now Pay Later Services     |
+| Commerce | Commerce engine                |
+| CPQ      | Configure, Price, Quote        |
+| OMS      | Order Management System        |
+| PIM      | Product Information Management |
+| POS      | Point of Sale                  |
+| PSP      | Payment services provider      |
+| RMS      | Returns Management System      |
+| SMS      | Subscription Management System |
+| WMS      | Warehouse Management System    |
+
+## Customer Experience
+| Platform         | Description                                         |
+| ---------------- | --------------------------------------------------- |
+| A/B              | A/B Testing & Experimentation Platform              |
+| BFF              | Backend for Frontend                                |
+| CDN              | Content Delivery Network                            |
+| CDX              | Content Federation / Experience Fragment Management |
+| CMS              | Content Management System                           |
+| Customer Service | Customer Service / Help Desk Platform               |
+| DAM              | Digital Asset Management                            |
+| DXO              | Digital Experience Orchestration                    |
+| LMS              | Learning Management System                          |
+| PWA              | Progressive Web App Platform                        |
+| Recommendation   | Content or product recommendation                   |
+| Search           | Search and Discoverability                          |
+
+## Data & Analytics
+| Platform | Description                       |
+| -------- | --------------------------------- |
+| BI       | Business Intelligence & Analytics |
+| CDP      | Customer Data Platform            |
+| DL       | Data Lake                         |
+| DQM      | Data Quality Management           |
+| DWH      | Data Warehouse                    |
+| DWS      | Data Warehousing Service          |
+| ETL      | Extract, Transform, Load Platform |
+| MDM      | Master Data Management            |
+
+## Business Operations
+| Platform | Description                      |
+| -------- | -------------------------------- |
+| CRM      | Customer Relationship Management |
+| ERP      | Enterprise Resource Planning     |
+| FSM      | Field Service Management         |
+| MAP      | Marketing Automation Platform    |
+| PLM      | Product Lifecycle Management     |
+| QMS      | Quality Management System        |
+| TMS      | Transport Management Platform    |
+
+## Integration & Infrastructure
+| Platform | Description                        |
+| -------- | ---------------------------------- |
+| APM      | Application Performance Monitoring |
+| EDA      | Event-Driven Architecture Platform |
+| ESB      | Enterprise Service Bus             |
+| IoT      | Internet of Things                 |
+| iPaaS    | Integration Platform as a Service  |
+
+## AI & Machine Learning
+| Platform | Description                          |
+| -------- | ------------------------------------ |
+| LLM      | Large Language Model Platform        |
+| MLOps    | Machine Learning Operations Platform |
+| VDB      | Vector Database                      |
+
+## Security & Compliance
+| Platform | Description                             |
+| -------- | --------------------------------------- |
+| FMS      | Fraud Management System                 |
+| IAM      | Identity and Access Management          |
+| PAM      | Privileged Access Management            |
+| SIEM     | Security Information & Event Management |
+| WAF      | Web Application Firewall                |
