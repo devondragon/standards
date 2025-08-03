@@ -169,4 +169,4 @@ In a MACH architecture, these principles ensure that variability does not become
 As architects navigate the transition to composable ecosystems, the MACH principles provide the tools to handle the inherent variability and specificity of enterprise systems. By leveraging integration and orchestration layers effectively, architects can abstract upon multiple platform instances, enabling a smooth transition from legacy to composable while maintaining operational integrity and strategic flexibility.
 
 ## Feedback
-Get in touch, see [contribution guidelines](https://github.com/machalliance/standards/blob/main/CONTRIBUTING.md).
+Get in touch, see [contribution guidelines](../CONTRIBUTING.md).

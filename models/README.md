@@ -18,7 +18,13 @@
   - [Why we are doing this](#why-we-are-doing-this)
   - [Getting Started](#getting-started)
     - [Quick Start Guide](#quick-start-guide)
+    - [Understanding the Model Structure](#understanding-the-model-structure)
+    - [Entity Coverage Matrix](#entity-coverage-matrix)
     - [Core Entities Available](#core-entities-available)
+      - [Identity \& Customer Data](#identity--customer-data)
+      - [Product Information](#product-information)
+      - [Commerce Operations](#commerce-operations)
+      - [Utility Objects](#utility-objects)
     - [Popular Recipes](#popular-recipes)
   - [Contributing](#contributing)
   - [Format and Philosophy](#format-and-philosophy)
@@ -30,7 +36,7 @@
 
 ## What it is
 
-The MACH Alliance Open Data Model (ODM) initiative is the natural next step in enabling interoperability across composable ecosystems. It serves as a semantic interoperability layer - a "Rosetta Stone" for understanding how to translate data between systems in hybrid commerce architectures. It provides canonical reference models and implementation guidance that enable architects to design effective data integration across commerce platforms while preparing organizations for AI-powered ecosystems.
+The MACH Alliance Open Data Model (ODM) initiative is the natural next step in enabling interoperability across composable ecosystems. It serves as a semantic interoperability layer: a "Rosetta Stone" for understanding how to translate data between systems in hybrid commerce architectures. It provides canonical reference models and implementation guidance that enable architects to design effective data integration across commerce platforms while preparing organizations for AI-powered ecosystems.
 
 After defining the MACH reference architecture and principles of composability, the next logical foundation is a shared, human-readable data models and recipes that vendors, platforms, and integrators can align around—without requiring tight coupling to any specific technology.
 
@@ -85,20 +91,20 @@ The intent is that these models can be used by architects (either directly, or v
 
 ### Understanding the Model Structure
 - **Entities** - Core business objects (Customer, Product, Order) with standardized fields
-- **Utility Objects** - Reusable components (Address, Media) shared across entities  
+- **Utility Objects** - Reusable components (Address, Media) shared across entities
 - **Recipes** - Real-world integration patterns showing how entities work together
 - **Extensions** - Namespaced fields for vendor-specific or custom data
 
 ### Entity Coverage Matrix
-| Domain | Entities | Status |
-|--------|----------|--------|
-| Identity & Customer | Customer | ✅ Complete |
-| Product Catalog | Product, Category, Product Type | ✅ Complete |
-| Commerce Operations | Inventory, Pricing, Promotion, Coupon Instance | ✅ Complete |
-| Order Management | Order, Cart, Fulfillment | 🚧 Coming Q4 2025 |
-| Content & Media | Media (utility) | ✅ Complete |
-| Location & Geography | Address (utility), Store Location | ✅ Address done |
-| Internationalization | Language (utility) | ✅ Complete |
+| Domain               | Entities                                       | Status           |
+| -------------------- | ---------------------------------------------- | ---------------- |
+| Identity & Customer  | Customer                                       | ✅ Complete       |
+| Product Catalog      | Product, Category, Product Type                | ✅ Complete       |
+| Commerce Operations  | Inventory, Pricing, Promotion, Coupon Instance | ✅ Complete       |
+| Order Management     | Order, Cart, Fulfillment                       | 🚧 Coming Q4 2025 |
+| Content & Media      | Media (utility)                                | ✅ Complete       |
+| Location & Geography | Address (utility), Store Location              | ✅ Address done   |
+| Internationalization | Language (utility)                             | ✅ Complete       |
 
 ### Core Entities Available
 
@@ -107,7 +113,7 @@ The intent is that these models can be used by architects (either directly, or v
 
 #### Product Information
 - **[Product](entities/product/product.md)** - Product catalog with variants and digital products
-- **[Category](entities/product/category.md)** - Hierarchical product categorization  
+- **[Category](entities/product/category.md)** - Hierarchical product categorization
 - **[Product Type](entities/product/product-type.md)** - Attribute definitions and product classification
 
 #### Commerce Operations

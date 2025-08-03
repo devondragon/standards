@@ -206,7 +206,7 @@ sequenceDiagram
 ## Systems Involved
 
 > [!IMPORTANT]
-> Align with the MACH Reference Architecture: > https://github.com/machalliance/standards/blob/main/src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf
+> Align with the MACH Reference Architecture: > ../../src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf
 
 > [!TIP]
 > **PDP Orchestration** example:
