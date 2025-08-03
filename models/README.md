@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./CHANGELOG.md)
 [![Last Updated](https://img.shields.io/badge/last%20updated-August%202025-green.svg)](.)
-[![Entities](https://img.shields.io/badge/entities-7-orange.svg)](./entities)
+[![Entities](https://img.shields.io/badge/entities-11-orange.svg)](./entities)
 [![Recipes](https://img.shields.io/badge/recipes-2-purple.svg)](./recipes)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
@@ -59,9 +59,9 @@ This standardized structure works across any CRM, CDP, or commerce platform, eli
 
 ## Current status
 
-- **Initial release (August 2025)** - Core project structure with foundational entities (Customer, Product, Inventory, Pricing) and initial recipes for PDP orchestration patterns
-- **Next planned release (Q4 2025)** - Extended entity coverage including Inventory, Cart, and Pricing models
-- **2026 Roadmap** - AI/Agent communication standards, advanced orchestration patterns
+- **Initial release (August 2025)** - Core project structure with 11 entities across identity, product catalog, commerce operations, and utilities, plus 2 PDP orchestration recipes
+- **Next planned release (Q4 2025)** - Order management entities (Order, Cart, Fulfillment) and checkout orchestration recipes
+- **2026 Roadmap** - AI/Agent communication standards, advanced orchestration patterns, and marketplace entities
 
 For more information, visit the [Changelog](./CHANGELOG.md).
 
@@ -83,14 +83,43 @@ The intent is that these models can be used by architects (either directly, or v
 2. **Ready to integrate?** Try the [PDP Orchestration recipe](recipes/PDP-orchestration-on-the-fly.md) for a complete integration example
 3. **Building your model?** Use the [entity template](templates/master-entity-template.md) as your starting point
 
+### Understanding the Model Structure
+- **Entities** - Core business objects (Customer, Product, Order) with standardized fields
+- **Utility Objects** - Reusable components (Address, Media) shared across entities  
+- **Recipes** - Real-world integration patterns showing how entities work together
+- **Extensions** - Namespaced fields for vendor-specific or custom data
+
+### Entity Coverage Matrix
+| Domain | Entities | Status |
+|--------|----------|--------|
+| Identity & Customer | Customer | ✅ Complete |
+| Product Catalog | Product, Category, Product Type | ✅ Complete |
+| Commerce Operations | Inventory, Pricing, Promotion, Coupon Instance | ✅ Complete |
+| Order Management | Order, Cart, Fulfillment | 🚧 Coming Q4 2025 |
+| Content & Media | Media (utility) | ✅ Complete |
+| Location & Geography | Address (utility), Store Location | ✅ Address done |
+| Internationalization | Language (utility) | ✅ Complete |
+
 ### Core Entities Available
-- **[Customer](entities/identity/customer.md)** - Unified customer profile across systems
-- **[Product](entities/product/product.md)** - Product information and catalog management
-- **[Inventory](entities/inventory/inventory.md)** - Stock levels and availability
-- **[Pricing](entities/pricing/pricing.md)** - Pricing rules and calculations
-- **[Category](entities/product/category.md)** - Product categorization and taxonomy
-- **[Product Type](entities/product/product-type.md)** - Product type definitions
-- **[Promotion](entities/promotion/promotion.md)** - Promotional rules and discounts
+
+#### Identity & Customer Data
+- **[Customer](entities/identity/customer.md)** - Unified customer profile supporting B2B/B2C scenarios
+
+#### Product Information
+- **[Product](entities/product/product.md)** - Product catalog with variants and digital products
+- **[Category](entities/product/category.md)** - Hierarchical product categorization  
+- **[Product Type](entities/product/product-type.md)** - Attribute definitions and product classification
+
+#### Commerce Operations
+- **[Inventory](entities/inventory/inventory.md)** - Multi-location stock and availability
+- **[Pricing](entities/pricing/pricing.md)** - Tiered, bulk, and multi-currency pricing
+- **[Promotion](entities/promotion/promotion.md)** - Discount rules and campaign management
+- **[Coupon Instance](entities/promotion/coupon-instance.md)** - Individual coupon tracking and redemption
+
+#### Utility Objects
+- **[Address](entities/utilities/address.md)** - International address formats with validation
+- **[Media](entities/utilities/media.md)** - Images, videos, and digital assets
+- **[Language](entities/utilities/language.md)** - Locale and internationalization support
 
 ### Popular Recipes
 - **[PDP Orchestration (on the fly)](recipes/PDP-orchestration-on-the-fly.md)** - Real-time product detail page composition
