@@ -67,7 +67,7 @@
 
 ## Time-related Fields
 
-For a full understanding, consult the [Timestamp](utilities/timestamp.md) utility object.
+For a full understanding of timestamp formats and standards, see ISO 8601 specification.
 
 ### `created_at`
 **Purpose**: Timestamp when the entity was created  
@@ -148,7 +148,7 @@ For a full understanding, consult the [Language](utilities/language.md) utility 
 
 ## Financial Fields
 
-For a full understanding, consult the [Money](utilities/money.md) utility object.
+For a full understanding of money handling, amounts should follow standard decimal practices with currency codes as per ISO 4217.
 
 ### `amount`
 **Purpose**: Monetary value amount  

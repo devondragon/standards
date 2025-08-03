@@ -1,6 +1,6 @@
 # MACH Open Data Model initiative
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](/changelog.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](./CHANGELOG.md)
 [![Last Updated](https://img.shields.io/badge/last%20updated-August%202025-green.svg)](.)
 [![Entities](https://img.shields.io/badge/entities-7-orange.svg)](./entities)
 [![Recipes](https://img.shields.io/badge/recipes-2-purple.svg)](./recipes)
@@ -59,11 +59,11 @@ This standardized structure works across any CRM, CDP, or commerce platform, eli
 
 ## Current status
 
-- **Initial release (August 2025)** - Core project structure with foundational entities (Customer, Order, Product) and initial recipes for common integration patterns
+- **Initial release (August 2025)** - Core project structure with foundational entities (Customer, Product, Inventory, Pricing) and initial recipes for PDP orchestration patterns
 - **Next planned release (Q4 2025)** - Extended entity coverage including Inventory, Cart, and Pricing models
 - **2026 Roadmap** - AI/Agent communication standards, advanced orchestration patterns
 
-For more information, visit the [Changelog](/changelog.md).
+For more information, visit the [Changelog](./CHANGELOG.md).
 
 ## Who it's for
 
@@ -79,21 +79,22 @@ The intent is that these models can be used by architects (either directly, or v
 ## Getting Started
 
 ### Quick Start Guide
-1. **New to ODM?** Start with the [Customer entity](entities/customer.md) to understand the structure
-2. **Ready to integrate?** Try the [Order-to-Fulfillment recipe](recipes/order-to-fulfillment.md) for a complete integration example
+1. **New to ODM?** Start with the [Customer entity](entities/identity/customer.md) to understand the structure
+2. **Ready to integrate?** Try the [PDP Orchestration recipe](recipes/PDP-orchestration-on-the-fly.md) for a complete integration example
 3. **Building your model?** Use the [entity template](templates/master-entity-template.md) as your starting point
 
 ### Core Entities Available
-- **[Customer](entities/customer.md)** - Unified customer profile across systems
-- **[Order](entities/order.md)** - Order management and fulfillment
-- **[Product](entities/product.md)** - Product information and catalog management
-- **[Inventory](entities/inventory.md)** - Stock levels and availability
-- **[Price](entities/price.md)** - Pricing rules and calculations
+- **[Customer](entities/identity/customer.md)** - Unified customer profile across systems
+- **[Product](entities/product/product.md)** - Product information and catalog management
+- **[Inventory](entities/inventory/inventory.md)** - Stock levels and availability
+- **[Pricing](entities/pricing/pricing.md)** - Pricing rules and calculations
+- **[Category](entities/product/category.md)** - Product categorization and taxonomy
+- **[Product Type](entities/product/product-type.md)** - Product type definitions
+- **[Promotion](entities/promotion/promotion.md)** - Promotional rules and discounts
 
 ### Popular Recipes
-- **[Unified Customer Profile](recipes/unified-customer-profile.md)** - Sync customer data across CRM, CDP, and commerce
-- **[Inventory Synchronization](recipes/real-time-inventory-sync.md)** - Real-time stock updates across channels
-- **[Order Orchestration](recipes/order-to-fulfillment.md)** - Complete order lifecycle management
+- **[PDP Orchestration (on the fly)](recipes/PDP-orchestration-on-the-fly.md)** - Real-time product detail page composition
+- **[PDP Orchestration (optimized access)](recipes/PDP-orchestration-optimized-access.md)** - Pre-optimized product data access layer
 
 ## Contributing
 

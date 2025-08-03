@@ -20,8 +20,8 @@
 
 | You are...                             | Start here                                                                                            |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **New to MACH** (MACH-curious) 🌱       | Learn the [core principles](#what-are-mach-principles) and explore [simple recipes](/models/recipes/) |
-| **Building with MACH** (MACH-active) 🛠️ | Implement [ODM patterns](/models/) and use [reference architectures](#-reference-architectures)       |
+| **New to MACH** (MACH-curious) 🌱       | Learn the [core principles](#what-are-mach-principles) and explore [simple recipes](./models/recipes/) |
+| **Building with MACH** (MACH-active) 🛠️ | Implement [ODM patterns](./models/) and use [reference architectures](#-reference-architectures)       |
 | **MACH Expert** (MACH-pro) 🚀           | [Contribute](#contributing) advanced patterns and shape future standards                              |
 
 ## 📊 Open Data Model (ODM)
@@ -38,13 +38,13 @@ The Open Data Model (ODM) solves this with:
 
 Whether you're syncing inventory across channels, orchestrating payments, or building unified customer profiles, ODM provides the proven patterns that have already been battle-tested in production.
 
-**[→ Explore the Open Data Model](/models/README.md)**
+**[→ Explore the Open Data Model](./models/README.md)**
 
 ## 🏗️ Reference Architectures
 
 Visual blueprints and patterns for building composable systems:
 
-- 📐 **[MACH Reference Architecture PDF](/src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf)** - Three levels of detail from domains to platform responsibilities
+- 📐 **[MACH Reference Architecture PDF](./src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf)** - Three levels of detail from domains to platform responsibilities
 - 🛠️ **[Architecture Diagram Generator](https://mach-diagrams.netlify.app/)** - Create your own MACH architecture diagrams
 - 📖 **[Architecture Guide](./reference/architecture-explained.md)** - Detailed explanation of MACH ecosystem design
 
@@ -55,8 +55,8 @@ Step-by-step guidance for your MACH journey:
 | Guide                                                                                                       | Description                                      | Format   |
 | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | -------- |
 | [MACH Architecture Introduction](./reference/architecture-intro.md)                                         | Path to composable ecosystems                    | Markdown |
-| [How to evaluate composable solutions](/whitepapers/How-to-evaluate-and-integrate-composable-solutions.pdf) | Evaluation criteria and legacy system strategies | PDF      |
-| [Understanding composable architectures](/whitepapers/Understanding-composable-architectures.pdf)           | Technical patterns and integration concepts      | PDF      |
+| [How to evaluate composable solutions](./whitepapers/How-to-evaluate-and-integrate-composable-solutions.pdf) | Evaluation criteria and legacy system strategies | PDF      |
+| [Understanding composable architectures](./whitepapers/Understanding-composable-architectures.pdf)           | Technical patterns and integration concepts      | PDF      |
 
 
 ## 🤝 Platform Definitions
@@ -64,7 +64,7 @@ Step-by-step guidance for your MACH journey:
 Understanding the building blocks of MACH architectures:
 
 - **[Platform Glossary](./reference/platforms.md)** - Decode three-letter acronyms (PIM, OMS, CMS, etc.)
-- **[Platform Responsibilities](/src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf)** - What each platform type handles in the ecosystem
+- **[Platform Responsibilities](./src/diagrams/MACH-Alliance-Reference-Architecture-Diagrams-rev1.4.pdf)** - What each platform type handles in the ecosystem
 
 
 ## 🌟 What are MACH principles?

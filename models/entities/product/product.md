@@ -2,437 +2,915 @@
 
 ## Table of contents
 
-- [Entity purpose](#entity-purpose)
-- [Object: Product](#object-product)
-- [Sample Object: Simple Product](#sample-object-simple-product)
-- [Sample Object: Configurable Product with Variants](#sample-object-configurable-product-with-variants)
-- [Sample Object: Bundle Product](#sample-object-bundle-product)
-- [Sample Object: Virtual Product](#sample-object-virtual-product)
-- [Sample Object: Product on Listing (Simplified)](#sample-object-product-on-listing-simplified)
-- [Sample Object: Localized product with multiple inventory locations](#sample-object-localized-product-with-multiple-inventory-locations-yellow-t-shirt-across-us-ca-dk)
-- [Sample Object: AI-enriched product content](#sample-object-ai-enriched-product-content-with-embedded-enrichment-details)
-- [Core Components & Relationships](#core-components--relationships)
-- [Typical pitfalls](#typical-pitfalls)
+- [MACH Alliance, Open Data Model Entity: `Product`](#mach-alliance-open-data-model-entity-product)
+  - [Table of contents](#table-of-contents)
+  - [Entity purpose](#entity-purpose)
+  - [Object: Product](#object-product)
+  - [Object: ProductVariant](#object-productvariant)
+  - [YAML Schema Definition](#yaml-schema-definition)
+    - [Product Schema](#product-schema)
+    - [ProductVariant Schema](#productvariant-schema)
+    - [Supporting Type Definitions](#supporting-type-definitions)
+  - [Implementation Approaches](#implementation-approaches)
+    - [Option 1: Nested Variants (Recommended)](#option-1-nested-variants-recommended)
+    - [Option 2: Separate Entities](#option-2-separate-entities)
+  - [Sample Object: Simple Product](#sample-object-simple-product)
+  - [Sample Object: Product with Variants](#sample-object-product-with-variants)
+  - [Sample Object: Digital Product](#sample-object-digital-product)
+  - [Localization Pattern](#localization-pattern)
+    - [Single Language (Simple String)](#single-language-simple-string)
+    - [Multi-Language (Localized Object)](#multi-language-localized-object)
+  - [Core Components \& Relationships](#core-components--relationships)
+    - [Updated Relationship Diagram](#updated-relationship-diagram)
+    - [Typical pitfalls](#typical-pitfalls)
+    - [Variant-Specific Pitfalls](#variant-specific-pitfalls)
 
 ---
 
 ## Entity purpose
 
-A unified product model that supports the core unit of sale across both B2B and B2C commerce scenarios. It resides within Commerce Engines, Product Information Management (PIM) systems, and Digital Experience Platforms (DXP). The product model supports rich content, variant configurations, pricing logic, inventory visibility, and localization. It serves as the foundational data structure driving search, merchandising, and transactional workflows.
+A unified product model that supports the core unit of sale across both B2B and B2C commerce scenarios. The model follows modern MACH platform conventions where every product has at least one variant, even for simple products. This aligns with platforms like commercetools, Shopify, and BigCommerce.
 
-The Entity describes: 
-- What is being sold
-- How it is configured (variants, options, specifications)
-- How is it priced
-- What content is used to describe and promote it
-- Where it is available (channels, regions)
-- What inventory exists
-- How it relates to other products (e.g., bundles, accessories)
+The model supports:
+- **Products**: The master entity containing shared information (name, description, brand, categories)
+- **Product Variants**: The actual sellable items with specific SKUs, prices, and inventory
+- **Options**: The attributes that differentiate variants (size, color, material)
+- **Flexible Localization**: All display fields support both single-language (string) and multi-language (object) formats
 
 ---
 
 ## Object: Product
 
-| Field         | Description | Practice |
-|---------------|-------------|----------|
-| `id`                   | Unique identifier in given context (e.g., UUID in context)          | SHOULD |
-| `sku`                  | Human readable unique identifier                              | RECOMMENDED |
-| `slug`                 | URL-friendly string for routing and SEO                        | RECOMMENDED |
-| `type`                 | Reference to Product Type for classification                   | SHOULD |
-| `status`               | Lifecycle status (`sellable`, `backorder`, `discontinued`)         | SHOULD  |
-| `referenceIds`         | Dictionary of cross-system IDs (e.g., ERP, WMS, ) to ease orchestration logic | SHOULD |
-| `createdAt`            | ISO 8601 creation timestamp using [Timestamp](../utilities/timestamp.md) utility object. | SHOULD |
-| `updatedAt`            | ISO 8601 update timestamp using [Timestamp](../utilities/timestamp.md) utility object. | SHOULD |
-| `name`                 | Product name                                                   | SHOULD |
-| `description`          | Product description                                            | SHOULD |
-| `price`                | Product pricing using [Money](../utilities/money.md) utility object.                   | SHOULD |
-| `inventory`            | products available to promise, inventory `onhand`, `bulk` with lead time | SHOULD |
-| `primaryImage`         | Primary image  using [Media](../utilities/media.md) utility object.                       | SHOULD |
-| `media`                | Additional images, videos, documents  using [Media](../utilities/media.md) utility object.       | COULD  |
-| `rating`               | Aggregated customer review information                         | COULD  |
-| `attributes`           | Array of product specifications and properties                  | RECOMMENDED  |
-| `variants`             | Array of product variants with their own SKUs and pricing      | COULD  |
-| `category`             | Logical grouping for navigation, filtering, SEO, query related products etc.| COULD |
-| `relatedProducts`      | Accessories, bundles, substitutes                              | COULD  |
-| `traits`               | Namespaced dictionary for extension data grouped by concern    | RECOMMENDED |
+The Product entity represents the master product information shared across all variants.
 
+| Field                 | Description                                                     | Practice    |
+| --------------------- | --------------------------------------------------------------- | ----------- |
+| `id`                  | Unique identifier for the product                               | MUST        |
+| `type`                | Reference to Product Type for classification                    | SHOULD      |
+| `status`              | Product lifecycle status (`active`, `archived`, `draft`)        | SHOULD      |
+| `external_references` | Dictionary of cross-system IDs (e.g., ERP, PIM)                 | SHOULD      |
+| `created_at`          | ISO 8601 creation timestamp                                     | SHOULD      |
+| `updated_at`          | ISO 8601 update timestamp                                       | SHOULD      |
+| `name`                | Product name (string or localized object)                       | MUST        |
+| `description`         | Product description (string or localized object)                | SHOULD      |
+| `slug`                | URL-friendly string for routing and SEO                         | RECOMMENDED |
+| `brand`               | Brand name or identifier                                        | COULD       |
+| `categories`          | Array of category references                                    | RECOMMENDED |
+| `tags`                | Array of tags for filtering and search                          | COULD       |
+| `options`             | Array of option definitions for variants                        | SHOULD      |
+| `default_variant_id`  | ID of the primary/master variant                                | SHOULD      |
+| `variants`            | Array of product variants (Option 1)                            | SHOULD      |
+| `fulfillment_type`    | How the product is delivered (`physical`, `digital`, `service`) | SHOULD      |
+| `tax_category`        | Default tax classification for the product                      | SHOULD      |
+| `primary_image`       | Primary product image                                           | SHOULD      |
+| `media`               | Additional images, videos, documents                            | COULD       |
+| `seo`                 | Metadata for search engine optimization                         | SHOULD      |
+| `rating`              | Aggregated customer review information                          | COULD       |
+| `related_products`    | Array of related product IDs                                    | COULD       |
+| `extensions`          | Namespaced dictionary for extension data                        | RECOMMENDED |
+
+---
+
+## Object: ProductVariant
+
+The ProductVariant entity represents individual sellable items with specific attribute combinations.
+
+| Field               | Description                                             | Practice |
+| ------------------- | ------------------------------------------------------- | -------- |
+| `id`                | Unique identifier for the variant                       | MUST     |
+| `product_id`        | Reference to parent product (Option 2 only)             | MUST     |
+| `sku`               | Stock Keeping Unit - unique identifier                  | MUST     |
+| `status`            | Variant status (`active`, `discontinued`)               | SHOULD   |
+| `position`          | Sort order for display purposes                         | SHOULD   |
+| `option_values`     | Array of option/value pairs for this variant            | MUST     |
+| `price`             | Variant pricing                                         | MUST     |
+| `compare_at_price`  | Original/MSRP price for showing discounts               | COULD    |
+| `cost`              | Cost of goods for margin calculations                   | COULD    |
+| `weight`            | Physical weight for shipping calculations               | SHOULD   |
+| `dimensions`        | Physical dimensions (length, width, height)             | COULD    |
+| `barcode`           | Barcode (UPC, EAN, ISBN, etc.)                          | COULD    |
+| `inventory`         | Inventory levels and tracking                           | SHOULD   |
+| `tax_category`      | Tax classification override (if different from product) | COULD    |
+| `shipping_required` | Whether physical shipping is needed                     | SHOULD   |
+| `media`             | Variant-specific images                                 | COULD    |
+| `attributes`        | Additional variant-specific attributes                  | COULD    |
+| `created_at`        | ISO 8601 creation timestamp                             | SHOULD   |
+| `updated_at`        | ISO 8601 update timestamp                               | SHOULD   |
+
+---
+
+## YAML Schema Definition
+
+### Product Schema
+
+```yaml
+Product:
+  type: object
+  required:
+    - id
+    - name
+  properties:
+    # Core identification
+    id:
+      type: string
+      description: Unique identifier for the product
+      # example: "PROD-001"
+
+    # Classification and status
+    type:
+      type: string
+      description: Reference to Product Type for classification
+      # example: "PT-APPAREL-001"
+
+    status:
+      type: string
+      enum: ["active", "archived", "draft"]
+      description: Product lifecycle status
+      default: "active"
+
+    # External system references
+    external_references:
+      type: object
+      description: Dictionary of cross-system IDs
+      additionalProperties:
+        type: string
+      # example:
+      #   erp_id: "ERP-12345"
+      #   pim_id: "PIM-67890"
+
+    # Timestamps
+    created_at:
+      type: string
+      format: date-time
+      description: ISO 8601 creation timestamp
+
+    updated_at:
+      type: string
+      format: date-time
+      description: ISO 8601 update timestamp
+
+    # Display information (localizable)
+    name:
+      oneOf:
+        - type: string  # Single language
+        - type: object  # Multi-language
+          additionalProperties:
+            type: string
+      description: Product name (string or localized object)
+      # example:
+      #   en-US: "Classic T-Shirt"
+      #   es-ES: "Camiseta Clásica"
+
+    description:
+      oneOf:
+        - type: string  # Single language
+        - type: object  # Multi-language
+          additionalProperties:
+            type: string
+      description: Product description (string or localized object)
+
+    # URL and branding
+    slug:
+      type: string
+      pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      description: URL-friendly string for routing and SEO
+      # example: "classic-t-shirt"
+
+    brand:
+      type: string
+      description: Brand name or identifier
+
+    # Categorization
+    categories:
+      type: array
+      items:
+        type: string
+      description: Array of category references
+      # example: ["apparel", "shirts"]
+
+    tags:
+      type: array
+      items:
+        type: string
+      description: Array of tags for filtering and search
+
+    # Variant configuration
+    options:
+      type: array
+      items:
+        $ref: "#/components/schemas/ProductOption"
+      description: Array of option definitions for variants
+
+    default_variant_id:
+      type: string
+      description: ID of the primary/master variant
+
+    variants:
+      type: array
+      items:
+        $ref: "#/components/schemas/ProductVariant"
+      description: Array of product variants (nested approach)
+
+    # Fulfillment and tax
+    fulfillment_type:
+      type: string
+      enum: ["physical", "digital", "service"]
+      description: How the product is delivered
+      default: "physical"
+
+    tax_category:
+      type: string
+      description: Default tax classification for the product
+      # example: "apparel-standard"
+
+    # Media assets
+    primary_image:
+      $ref: "#/components/schemas/Media"
+      description: Primary product image
+
+    media:
+      type: array
+      items:
+        $ref: "#/components/schemas/Media"
+      description: Additional images, videos, documents
+
+    # SEO and ratings
+    seo:
+      $ref: "#/components/schemas/SEO"
+      description: Metadata for search engine optimization
+
+    rating:
+      $ref: "#/components/schemas/Rating"
+      description: Aggregated customer review information
+
+    # Relationships
+    related_products:
+      type: array
+      items:
+        type: string
+      description: Array of related product IDs
+
+    # Extensibility
+    extensions:
+      type: object
+      description: Namespaced dictionary for extension data
+      additionalProperties: true
+      # example:
+      #   loyalty_points:
+      #     points_earned: 100
+      #   sustainability:
+      #     carbon_neutral: true
+      #     materials: ["organic-cotton", "recycled-polyester"]
+```
+
+### ProductVariant Schema
+
+```yaml
+ProductVariant:
+  type: object
+  required:
+    - id
+    - sku
+    - option_values
+    - price
+  properties:
+    # Core identification
+    id:
+      type: string
+      description: Unique identifier for the variant
+      # example: "VAR-001"
+
+    product_id:
+      type: string
+      description: Reference to parent product (only for separate entities approach)
+
+    sku:
+      type: string
+      description: Stock Keeping Unit - unique identifier
+      # example: "TSHIRT-RED-S"
+
+    # Status and ordering
+    status:
+      type: string
+      enum: ["active", "discontinued"]
+      description: Variant status
+      default: "active"
+
+    position:
+      type: integer
+      description: Sort order for display purposes
+      minimum: 1
+      # example: 1
+
+    # Variant options
+    option_values:
+      type: array
+      items:
+        type: object
+        required:
+          - option_id
+          - value
+        properties:
+          option_id:
+            type: string
+            description: Reference to option definition
+          value:
+            type: string
+            description: Selected value for this option
+      description: Array of option/value pairs for this variant
+
+    # Pricing
+    price:
+      $ref: "#/components/schemas/Money"
+      description: Variant pricing
+
+    compare_at_price:
+      $ref: "#/components/schemas/Money"
+      description: Original/MSRP price for showing discounts
+
+    cost:
+      $ref: "#/components/schemas/Money"
+      description: Cost of goods for margin calculations
+
+    # Physical attributes
+    weight:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Weight value
+        unit:
+          type: string
+          enum: ["g", "kg", "oz", "lb"]
+          description: Weight unit
+      description: Physical weight for shipping calculations
+
+    dimensions:
+      type: object
+      properties:
+        length:
+          type: number
+        width:
+          type: number
+        height:
+          type: number
+        unit:
+          type: string
+          enum: ["cm", "m", "in", "ft"]
+      description: Physical dimensions
+
+    # Identification and tracking
+    barcode:
+      type: string
+      description: Barcode (UPC, EAN, ISBN, etc.)
+      pattern: "^[0-9A-Za-z-]+$"
+
+    inventory:
+      $ref: "#/components/schemas/Inventory"
+      description: Inventory levels and tracking
+
+    # Tax and shipping
+    tax_category:
+      type: string
+      description: Tax classification override (if different from product)
+
+    shipping_required:
+      type: boolean
+      description: Whether physical shipping is needed
+      default: true
+
+    # Media and attributes
+    media:
+      type: array
+      items:
+        $ref: "#/components/schemas/Media"
+      description: Variant-specific images
+
+    attributes:
+      type: object
+      additionalProperties: true
+      description: Additional variant-specific attributes
+      # example:
+      #   material_composition: "100% organic cotton"
+      #   care_instructions: "Machine wash cold"
+
+    # Timestamps
+    created_at:
+      type: string
+      format: date-time
+      description: ISO 8601 creation timestamp
+
+    updated_at:
+      type: string
+      format: date-time
+      description: ISO 8601 update timestamp
+```
+
+### Supporting Type Definitions
+
+```yaml
+ProductOption:
+  type: object
+  required:
+    - id
+    - name
+    - values
+  properties:
+    id:
+      type: string
+      description: Unique identifier for the option
+      # example: "opt-color"
+    name:
+      oneOf:
+        - type: string  # Single language
+        - type: object  # Multi-language
+          additionalProperties:
+            type: string
+      description: Display name for the option
+      # example: "Color"
+    position:
+      type: integer
+      description: Display order for the option
+      minimum: 1
+    values:
+      type: array
+      items:
+        oneOf:
+          - type: string  # Single language
+          - type: object  # Multi-language
+            additionalProperties:
+              type: string
+      description: Available values for this option
+      # example: ["Red", "Blue", "Black"]
+
+# References to utility objects defined in other files
+Money:
+  $ref: "../utilities/money.yaml#/Money"
+
+Media:
+  $ref: "../utilities/media.yaml#/Media"
+
+SEO:
+  $ref: "../utilities/seo.yaml#/SEO"
+
+Inventory:
+  $ref: "../inventory/inventory.yaml#/Inventory"
+
+Rating:
+  type: object
+  properties:
+    average:
+      type: number
+      minimum: 0
+      maximum: 5
+      description: Average rating score
+    count:
+      type: integer
+      description: Total number of ratings
+```
+
+---
+
+## Implementation Approaches
+
+### Option 1: Nested Variants (Recommended)
+
+This approach embeds variants within the product entity, following the pattern used by most modern MACH platforms.
+
+```json
+{
+  "id": "PROD-001",
+  "name": "Classic T-Shirt",
+  "description": "Comfortable cotton t-shirt",
+  "status": "active",
+  "brand": "MACH Apparel",
+  "categories": ["apparel", "shirts"],
+  "default_variant_id": "VAR-001",
+  "fulfillment_type": "physical",
+  "tax_category": "apparel-standard",
+  "external_references": {
+    "erp_id": "ERP-12345",
+    "pim_id": "PIM-TSHIRT-001"
+  },
+
+  // Option definitions
+  "options": [
+  {
+    "id": "opt-color",
+    "name": "Color",
+    "position": 1,
+    "values": ["Red", "Blue", "Black"]
+  },
+  {
+    "id": "opt-size",
+    "name": "Size",
+    "position": 2,
+    "values": ["S", "M", "L"]
+  }
+  ],
+
+  // Embedded variants
+  "variants": [
+  {
+    "id": "VAR-001",
+    "sku": "TSHIRT-RED-S",
+    "status": "active",
+    "position": 1,
+    "option_values": [
+    { "option_id": "opt-color", "value": "Red" },
+    { "option_id": "opt-size", "value": "S" }
+    ],
+    "price": {
+    "amount": 29.99,
+    "currency": "USD"
+    },
+    "inventory": {
+    "track_inventory": true,
+    "quantity": 100,
+    "location_quantities": {
+      "warehouse-1": 60,
+      "warehouse-2": 40
+    }
+    },
+    "weight": {
+    "value": 150,
+    "unit": "g"
+    }
+  },
+  // ... more variants
+  ]
+}
+```
+
+### Option 2: Separate Entities
+
+This approach uses separate Product and ProductVariant entities, connected by references.
+
+**Product Entity:**
+```json
+{
+  "id": "PROD-001",
+  "name": "Classic T-Shirt",
+  "description": "Comfortable cotton t-shirt",
+  "status": "active",
+  "brand": "MACH Apparel",
+  "categories": ["apparel", "shirts"],
+  "default_variant_id": "VAR-001",
+  "fulfillment_type": "physical",
+  "tax_category": "apparel-standard",
+  "external_references": {
+    "erp_id": "ERP-12345",
+    "pim_id": "PIM-TSHIRT-001"
+  },
+  "options": [
+  {
+    "id": "opt-color",
+    "name": "Color",
+    "position": 1,
+    "values": ["Red", "Blue", "Black"]
+  },
+  {
+    "id": "opt-size",
+    "name": "Size",
+    "position": 2,
+    "values": ["S", "M", "L"]
+  }
+  ],
+  // Shared attributes only
+  "primary_image": {...},
+  "seo": {...}
+}
+```
+
+**ProductVariant Entity:**
+```json
+{
+  "id": "VAR-001",
+  "product_id": "PROD-001",
+  "sku": "TSHIRT-RED-S",
+  "status": "active",
+  "position": 1,
+  "option_values": [
+  { "option_id": "opt-color", "value": "Red" },
+  { "option_id": "opt-size", "value": "S" }
+  ],
+  "price": {
+  "amount": 29.99,
+  "currency": "USD"
+  },
+  "inventory": {
+  "track_inventory": true,
+  "quantity": 100
+  }
+}
+```
 
 ---
 
 ## Sample Object: Simple Product
 
-Simple, sellable product without variants.
+A simple product with only one variant (following the pattern that every product must have at least one variant).
 
-```jsonc
+```json
 {
   "id": "PROD-001",
-  "sku": "TSHIRT-001",
+  "name": "Organic Cotton T-Shirt",
+  "description": "Sustainable, soft cotton t-shirt",
+  "status": "active",
   "type": "PT-APPAREL-001",
   "slug": "organic-cotton-tshirt",
-  "status": "sellable",
-  "referenceIds": {
-    "erp": "ERP-TSHIRT-001",
-    "wms": "WMS-TSHIRT-001"
+  "brand": "MACH Apparel",
+  "categories": ["apparel", "shirts", "sustainable"],
+  "default_variant_id": "VAR-001",
+  "fulfillment_type": "physical",
+  "tax_category": "apparel-standard",
+  "external_references": {
+    "erp_id": "ERP-67890",
+    "pim_id": "PIM-ORGANIC-001"
   },
-  "createdAt": "2024-01-15T10:00:00Z",
-  "updatedAt": "2025-06-20T08:45:00Z",
-  "name": "Organic Cotton T‑Shirt",
-  "description": "Sustainable, soft cotton t-shirt.",
-  "price": {
+
+  // No options needed for simple product
+  "options": [],
+
+  // Single variant
+  "variants": [
+  {
+    "id": "VAR-001",
+    "sku": "TSHIRT-001",
+    "status": "active",
+    "position": 1,
+    "option_values": [], // No options for simple product
+    "price": {
     "amount": 34.95,
     "currency": "EUR"
-  },
-  "inventory": {
-    "onhand": 28,
-    "bulk": 72,
-    "leadTimeDays": 2
-  },
-  "primaryImage": {
-    "url": "https://cdn.example.com/img/tshirt-primary.webp",
-    "description": "Organic Cotton T-Shirt",
-  },
-  "media": [
-    {
-      "url": "https://cdn.example.com/img/tshirt-gallery-1.webp",
-      "description": "T-Shirt Front View",
-      "type": "image"
-    }
-  ],
-  "rating": { "average": 4.5, "count": 120 },
-  "attributes": [
-    { "label": "Material", "value": "Organic Cotton" },
-    { "label": "Fit", "value": "Regular" },
-    { "label": "Care Instructions", "value": ["Machine wash", "Do not bleach", "Iron on low"] },
-    { "label": "Certifications", "value": ["Fair Trade", "MACH-Approved"] }
-    { "label": "size", "value": "onesize" }
-  ],
-  "relatedProducts": ["PROD-002"],
-  "traits": {
-    "seo": {
-      "metaTitle": "Organic Cotton T-Shirt - Sustainable Fashion",
-      "metaDescription" : "Eco-friendly organic cotton t-shirt for conscious consumers." ,
-      "source": "pim"
     },
-    "marketing": {
-      "priority": 3,
-      "type": "bestseller",
-      "source": "merchandising"
+    "inventory": {
+    "track_inventory": true,
+    "quantity": 28,
+    "allow_backorder": true,
+    "backorder_quantity": 72,
+    "lead_time_days": 2
     },
-     "catalog": {
-      "brand": "MACH Merch",
-      "slug": "mm",
-      "source": "pim"
-    }
+    "weight": {
+    "value": 200,
+    "unit": "g"
+    },
+    "barcode": "1234567890123",
+    "shipping_required": true
+  }
+  ],
+
+  "primary_image": {
+  "url": "https://cdn.example.com/img/tshirt-primary.webp",
+  "alt_text": "Organic Cotton T-Shirt"
+  },
+
+  "seo": {
+  "meta_title": "Organic Cotton T-Shirt - Sustainable Fashion",
+  "meta_description": "Eco-friendly organic cotton t-shirt for conscious consumers."
   }
 }
 ```
 
+---
 
-## Sample Object: Configurable Product with Variants
+## Sample Object: Product with Variants
 
-A parent product with multiple variants based on attributes.
+A product with multiple variants based on color and size options.
 
-```jsonc
+```json
 {
+  "id": "PROD-002",
+  "name": "Classic Fit T-Shirt",
+  "description": "Our signature t-shirt in multiple colors and sizes",
+  "status": "active",
+  "brand": "MACH Apparel",
+  "categories": ["apparel", "shirts"],
+  "default_variant_id": "VAR-001",
+  "fulfillment_type": "physical",
+  "tax_category": "apparel-standard",
+  "external_references": {
+    "erp_id": "ERP-45678"
+  },
+
+  "options": [
+  {
+    "id": "opt-color",
+    "name": "Color",
+    "position": 1,
+    "values": ["Black", "White", "Navy"]
+  },
+  {
+    "id": "opt-size",
+    "name": "Size",
+    "position": 2,
+    "values": ["S", "M", "L", "XL"]
+  }
+  ],
+
   "variants": [
+  {
+    "id": "VAR-001",
+    "sku": "CLASSIC-BLACK-M",
+    "status": "active",
+    "position": 1,
+    "option_values": [
+    { "option_id": "opt-color", "value": "Black" },
+    { "option_id": "opt-size", "value": "M" }
+    ],
+    "price": {
+    "amount": 29.99,
+    "currency": "USD"
+    },
+    "compare_at_price": {
+    "amount": 39.99,
+    "currency": "USD"
+    },
+    "inventory": {
+    "track_inventory": true,
+    "quantity": 150
+    },
+    "media": [
     {
-      "id": "VAR-001",
-      "sku": "TSHIRT-001-BLK-M",
-      "name": "Black T-Shirt - Medium",
-      "attributes": [
-        { "label": "Color", "value": "Black" },
-        { "label": "Size", "value": "M" }
-      ],
-      "inventory": {
-        "onhand": 4,
-        "bulk": 22,
-        "leadTimeDays": 2
-      },
-      "price": {
-        "amount": 34.95,
-        "currency": "EUR"
-      },
-      "media": [
-        {
-          "url": "https://cdn.example.com/img/tshirt-blk-m.webp",
-          "description": "Black T-shirt, Medium",
-          "type": "image"
-        }
-      ]
+      "url": "https://cdn.example.com/img/classic-black.webp",
+      "alt_text": "Classic T-Shirt in Black"
     }
+    ]
+  },
+  {
+    "id": "VAR-002",
+    "sku": "CLASSIC-BLACK-L",
+    "status": "active",
+    "position": 2,
+    "option_values": [
+    { "option_id": "opt-color", "value": "Black" },
+    { "option_id": "opt-size", "value": "L" }
+    ],
+    "price": {
+    "amount": 29.99,
+    "currency": "USD"
+    },
+    "inventory": {
+    "track_inventory": true,
+    "quantity": 75
+    }
+  }
+  // ... more variants for other color/size combinations
   ]
 }
 ```
 
-## Sample Object: Bundle Product
+---
 
-Customizable set of items sold together as one purchasable unit.
+## Sample Object: Digital Product
 
-```jsonc
+A digital product example showing the use of `fulfillment_type: "digital"`.
+
+```json
 {
-"traits": {
-  "bundle": {
-    "type": "fixed",
-    "items": [
-      { "productId": "PROD-001", "quantity": 1 },
-      { "productId": "PROD-002", "quantity": 1 },
-      { "productId": "PROD-004", "quantity": 1 }
-    ],
-    "source": "commerce_platform"
-  }
-}
-}
-```
-
-## Sample Object: Virtual Product
-
-An intangible product such as a service or experience, often time-based.
-
-```jsonc
-{
-  "id": "PROD-006",
-  "productTypeId": "PT-SERVICE-001",
-  "slug": "virtual-styling-session",
-  "name": { "Virtual Styling Session"},
-  "description": { "30-minute Zoom call with a fashion stylist." },
-  "price": {
-    "amount": 29.95,
-    "currency": "EUR"
+  "id": "PROD-003",
+  "name": {
+    "en-US": "Premium Design Templates",
+    "es-ES": "Plantillas de Diseño Premium"
   },
-  "primaryImage": {
-    "url": "https://cdn.example.com/img/styling-session.webp",
-    "description": "Virtual Styling Session",
+  "description": {
+    "en-US": "Professional design template bundle with 50+ layouts",
+    "es-ES": "Paquete de plantillas de diseño profesional con más de 50 diseños"
   },
   "status": "active",
-  "attributes": [
-    { "label": "Duration", "value": "30 minutes" },
-    { "label": "Service Type", "value": "Virtual Consultation" }
+  "brand": "MACH Digital",
+  "categories": ["digital", "design", "templates"],
+  "default_variant_id": "VAR-001",
+  "fulfillment_type": "digital",
+  "tax_category": "digital-goods",
+  "external_references": {
+    "license_server": "LIC-TEMPLATES-001"
+  },
+
+  "options": [],
+
+  "variants": [
+  {
+    "id": "VAR-001",
+    "sku": "TEMPLATES-PRO",
+    "status": "active",
+    "position": 1,
+    "option_values": [],
+    "price": {
+    "amount": 79.99,
+    "currency": "USD"
+    },
+    "shipping_required": false,
+    "attributes": {
+      "download_limit": 5,
+      "license_type": "single-user",
+      "file_size_mb": 450
+    }
+  }
   ],
-  "traits": {
-    "service": {
-      "duration": "30_minutes",
-      "platform": "zoom",
-      "timezone": "UTC",
-      "source": "booking_system"
-    },
-    "availability": {
-      "channelAvailability": ["web"],
-      "regionAvailability": ["global"],
-      "source": "ecommerce",
-      "contentRating": "pg"
+
+  "primary_image": {
+    "url": "https://cdn.example.com/img/templates-preview.webp",
+    "alt_text": "Premium Design Templates Preview"
+  },
+
+  "extensions": {
+    "digital_delivery": {
+      "delivery_method": "download",
+      "access_period_days": 365,
+      "drm_protected": false
     }
   }
 }
 ```
 
-## Sample Object: Product on Listing (Simplified)
+---
 
-```jsonc
+## Localization Pattern
+
+All fields that are displayed to end users support flexible localization. Fields can accept either a simple string (for single-language stores) or a localized object (for multi-language stores).
+
+### Single Language (Simple String)
+```json
 {
-  "id": "PROD-001",
-  "sku": "TSHIRT-001",
-  "type": "PT-APPAREL-001",
-  "slug": "organic-cotton-tshirt",
-  "name": { "en-US": "Organic Cotton T‑Shirt", "en-GB": "Organic Cotton T‑Shirt" },
-  "description": { "en-US": "Sustainable, soft cotton T‑shirt.", "en-GB": "Sustainable, soft cotton t-shirt." },
-  "price": {
-    "amount": 34.95,
-    "currency": "EUR"
-  },
-  "primaryImage": {
-    "url": "https://cdn.example.com/img/tshirt-primary.jpg",
-    "description": "Organic Cotton T-Shirt",
-  },
-  "rating": { "average": 4.5, "count": 1203 },
-  "attributes": [
-    { "label": "Material", "value": "Organic Cotton" }
-  ]
+  "name": "Classic T-Shirt",
+  "description": "Our signature cotton t-shirt"
 }
 ```
 
-##  Sample Object: Localized product with multiple inventory locations: yellow t-shirt across US, CA, DK
-
-```jsonc
-
+### Multi-Language (Localized Object)
+```json
 {
-  "id": "PROD-YELLOW-TSHIRT-001",
-  "sku": "YTSHIRT-001",
-  "slug": "yellow-cotton-tshirt",
-  "type": "apparelOnesize",
-  "referenceIds": {
-    "erp": "ERP-8749302",
-    "wmsUS": "UWMS-123-YT",
-    "wmsEU": "EWMS-123-YT"
-  },
-  "createdAt": "2025-07-01T12:00:00Z",
-  "updatedAt": "2025-07-03T08:30:00Z",
   "name": {
-    "en-US": "Yellow Cotton T-Shirt",
-    "en-CA": "Yellow Cotton T-Shirt",
-    "fr-CA": "T-shirt en coton jaune",
-    "da-DK": "Gul bomulds-T-shirt"
+    "en-US": "Classic T-Shirt",
+    "es-ES": "Camiseta Clásica",
+    "fr-FR": "T-Shirt Classique"
   },
   "description": {
-    "en-US": "Bright yellow T-shirt made from 100% soft cotton.",
-    "en-CA": "Bright yellow T-shirt made from 100% soft cotton.",
-    "fr-CA": "T-shirt jaune vif en coton doux à 100 %.",
-    "da-DK": "Kraftig gul T-shirt i 100% blød bomuld."
-  },
-  "price": {
-    "en-US": { "amount": 24.99, "currency": "USD" },
-    "en-CA": { "amount": 32.00, "currency": "CAD" },
-    "fr-CA": { "amount": 32.00, "currency": "CAD" },
-    "da-DK": { "amount": 179.00, "currency": "DKK" }
-  },
-  "inventory": {
-    "US": {
-      "onHand": 127,
-      "bulk": 300,
-      "leadTimeDays": 1
-    },
-    "CA": {
-      "onHand": 0,
-      "bulk": 300,
-      "leadTimeDays": 3
-    },
-    "DK": {
-      "onHand": 8,
-      "bulk": 42,
-      "leadTimeDays": 1
-    }
-  },
-  "status": {
-    "US": "sellable",
-    "CA": "backorder",
-    "DK": "sellable"
-  },
-  "primaryImage": {
-    "url": "https://cdn.example.com/img/yellow-tshirt.webp",
-    "description": "Yellow Cotton T-Shirt",
-  },
-  "traits": {
-    "seo": {
-      "metaTitle": {
-        "en-US": "Yellow Cotton T-Shirt – Soft & Vibrant",
-        "en-CA": "Yellow Cotton T-Shirt – Soft & Vibrant",
-        "fr-CA": "T-shirt en coton jaune – Doux et éclatant",
-        "da-DK": "Gul bomulds-T-shirt – Blød og levende"
-      },
-      "metaDescription": {
-        "en-US": "Classic yellow cotton T-shirt. Comfortable, soft and sustainably produced.",
-        "en-CA": "Classic yellow cotton T-shirt. Comfortable, soft and sustainably produced.",
-        "fr-CA": "T-shirt classique en coton jaune. Confortable, doux et produit durablement.",
-        "da-DK": "Klassisk gul bomulds-T-shirt. Komfortabel, blød og bæredygtigt produceret."
-      },
-      "source": "orchestration.content-acceleration-service.localize-pim",
-    }
-  }
-}
-
-```
-
-##  Sample Object: AI-enriched product content with embedded enrichment details
-On the product detail page (PDP), the `enriched.text` can dynamically replace or supplement the base description to better resonate with eco-conscious shoppers, increasing engagement and conversion.
-The detailed `enriched.targetAudience` metadata enables personalization engines to conditionally surface this enriched copy when the shopper profile or channel context matches, improving relevance across segments.
-
-```jsonc
-{
-  "description": {
-    "base": {
-      "text": "Eco-Comfort Organic Cotton T‑Shirt – Soft, Breathable & Sustainable",
-      "source": "pim"
-    },
-    "enriched": {
-      "text": "Experience everyday comfort with our eco-friendly organic cotton T-shirt—crafted from 100% sustainably grown fibers for a soft, breathable fit that aligns .",
-      "source": "orchestration.content-acceleration-service",
-      "engine": "speedtrain-ai-writer-v7",
-      "enrichmentType": "ai-rewrite.value-based-copy",
-      "updatedAt": "2025-07-02T16:20:00Z",
-      "confidence": 0.94,
-      "targetAudience": {
-        "demographic": {
-          "ageRange": "25–45",
-          "gender": "all",
-          "location": "urban",
-        },
-        "psychographic": {
-          "values": "sustainability",
-          "purchaseMotivation": "feel-good-fashion"
-        },
-        "behavioral": {
-          "shoppingFrequency": 6,
-          "purchaseIntentScore":5,
-          "loyaltyLevel": "aware.explore"
-        },
-        "channel": "ecommerce.product-detail-page"
-      }
-    }
+    "en-US": "Our signature cotton t-shirt",
+    "es-ES": "Nuestra camiseta de algodón exclusiva",
+    "fr-FR": "Notre t-shirt en coton signature"
   }
 }
 ```
 
-
-
+This pattern applies to all localizable fields including:
+- Product: `name`, `description`
+- Variant: `attributes` (when containing display values)
+- Option: `name`, `values`
+- Media: `alt_text`
+- SEO: `meta_title`, `meta_description`
 
 ---
 
 ## Core Components & Relationships
 
-| Concept             | Description                                                    | Typical Source of Truth             |
-| -------------------- | -------------------------------------------------------------- | --------------------------------------- |
-| Product Type         | Classification and attribute schema reference                  | PIM / Commerce Engine               |
-| ID                   | Unique identifier in given context (e.g., UUID, slug)          | PIM / Commerce Engine / OMS                  |
-| Name                 | Product name                                                   | PIM / Commerce Engine / CMS                  |
-| Price                | Product pricing using Money utility object                     | PIM / Commerce Engine / Pricing Engine       |
-| Media                | Visual assets using Media utility object                       | Commerce Engine / CMS / DAM                  |
-| Variants             | Product configurations with individual SKUs and pricing        | PIM / Commerce Engine             |
-| Variant Inventory    | Stock quantity and availability at variant/location level      | Commerce Engine / OMS                        |
-| Channel Availability | Sales channels where product is available (see [Channel](../utilities/channel.md) utility) | Commerce Engine                   |
-| Region Availability  | Geographic regions where product can be sold                   | Commerce Engine                    |
-
-`Product` typically resides in many systems, including:
-
-- Commerce Engine
-- Order Management (OMS)
-- Product Information Management (PIM)
-- Search and Merchandising
-- Digital Asset Management (DAM)
-- Content Management (CMS)
-
-### Typical Relationships
+### Updated Relationship Diagram
 
 ```mermaid
 erDiagram
-    Product ||--|| "Product Type" : classifiedBy
-    Product ||--|{ Variant : has
-    Variant ||--|| Money : pricedBy
-    Variant ||--|| Inventory : stockedIn
-    Product ||--|{ Attribute : has
-    Product ||--|| Category : belongsTo
-    Product ||--|{ Media : hasAssets
-    Product ||--|{ "Related Product" : relatedTo
-    Product ||--|{ "Region Availability" : availableIn
-    Product ||--|{ "Channel Availability" : visibleOn
-    Product ||..|| Review : receives
-    Product ||..|| Money : uses
-    Product ||..|| Media : uses
+Product:::entity 1 to 1 "Product Type":::entity : "defined by"
+Product 1 to 1 Category:::entity : "classified by"
+Product 1 to 0+ "Product Variant(s)":::internalRel : "has"
+"Product Variant(s)" 1 to 1 Money:::entity : price
+"Product Variant(s)" 1 to 1 Inventory:::entity : stock
+Product 1 optionally to 0+ Media:::optionalRel : "assets"
+"Product Variant(s)" 1 to 0+ Media:::optionalRel : "assets"
+Product 1 optionally to 0+ "Related Product(s)":::optionalRel : "related to"
+Product 1 optionally to 0+ "Region Availability":::optionalRel : "available in"
+Product 1 optionally to 0+ "Channel Availability":::optionalRel : "visible on"
+
+classDef entity fill:#ffd100, stroke:#ffd100,stroke-width:2px
+classDef internalRel fill:#ffd10080, stroke:#ffd10080,stroke-width:1px
+classDef optionalRel stroke:#b5b5b5, stroke-dasharray: 1 1, fill:#f3f3f3, stroke-width:2px
 ```
 
 ---
+
 
 ### Typical pitfalls
 - Relying solely on real-time federation of product data across systems – Leads to increased latency, compute overhead, and performance degradation under load. Without an orchestration layer or indexed materialization, querying product details from multiple backends at runtime (e.g., PIM, inventory, pricing) results in poor customer experience, especially during peak traffic or high-volume listings.
 - Inadequate support for product variants and attribute-driven SKUs - Leads to poor user experience, inability to differentiate similar products, and challenges in inventory tracking.
 - Not handling localization for product content and specifications - Results in inconsistent customer experience across regions, regulatory compliance issues, and lower international conversion rates.
-- Missing og misconfiguring support for multiple pricing and tax models (e.g., tiered, regional, customer-specific)
+- Missing or misconfiguring support for multiple pricing and tax models (e.g., tiered, regional, customer-specific)
 - Poor handling of product supply chain states (e.g., sellable, out of stock, active, discontinued)
 - Not maintaining relationships between related or substitute products - Reduces cross-sell and up-sell opportunities and weakens the recommendation engine's effectiveness.
 - Poor integration with inventory and availability systems - Leads to underselling or overselling
+
+### Variant-Specific Pitfalls
+- **Not enforcing at least one variant per product** - Creates inconsistency with modern MACH platforms and complicates inventory/pricing logic
+- **Confusing SKU terminology** - SKU should be an attribute of the variant, not a separate entity
+- **Poor option value management** - Not properly defining option sets leads to data inconsistency
+- **Missing variant-level inventory** - Inventory must be tracked at variant level, not product level
+- **Ignoring variant-specific pricing** - Different variants often have different prices
+- **Not supporting variant-level media** - Color variants need their own images
+
+
 ---
 
 >  This MACH Alliance Canonical Data Model is intentionally __vendor-neutral__ and serves as a foundation for interoperability across composable architectures. It is __continually evolving__ through community contributions, which are reviewed and approved collaboratively.
->  
+>
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
->  
->  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="../../CONTRIBUTING.md">Contributor Guide</a>.
+>
+>  We welcome and encourage continued improvements through community input. For more information and guidance on how to contribute, please refer to the <a href="https://github.com/machalliance/common-data-model/blob/main/contributing.md">Contributor Guide</a>.
 

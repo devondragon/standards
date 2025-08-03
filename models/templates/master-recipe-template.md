@@ -233,7 +233,7 @@ sequenceDiagram
 > * Data lineage: where it’s stored, how it flows 
 > * Privacy/PII considerations
 >
-> Inputs and Outputs should link to entities (if they exist - if they do not exist, you should create one - see [How to Contribute](/common-data-model/contributing.md#how-to-contribute)).
+> Inputs and Outputs should link to entities (if they exist - if they do not exist, you should create one - see [How to Contribute](../CONTRIBUTING.md)).
 
 
 > [!TIP]

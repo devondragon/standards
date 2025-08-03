@@ -4,18 +4,32 @@
 
 ## Table of contents
 
-- [Recipe purpose](#recipe-purpose)
-- [Recipe Overview](#recipe-overview)
-- [Typical pitfalls](#typical-pitfalls)
-- [Actors / Stakeholders](#actors--stakeholders)
-- [Trigger Points / Events](#trigger-points--events)
-- [Recipe Flows](#recipe-flows)
-- [Systems Involved](#systems-involved)
-- [Data Requirements](#data-requirements)
-- [Variants / Alternatives](#variants--alternatives)
-- [Failure Modes / Edge Cases](#failure-modes--edge-cases)
-- [Success Metrics / KPIs](#success-metrics--kpis)
-- [Security & Compliance Notes](#security--compliance-notes)
+- [MACH Alliance, Open Data Model](#mach-alliance-open-data-model)
+  - [Recipe: `PDP Orchestration (on the fly)`](#recipe-pdp-orchestration-on-the-fly)
+  - [Table of contents](#table-of-contents)
+  - [Recipe Purpose](#recipe-purpose)
+  - [Recipe Overview](#recipe-overview)
+      - [Approach Rationale](#approach-rationale)
+        - [Performance \& User Experience](#performance--user-experience)
+        - [Security \& Compliance](#security--compliance)
+        - [Business Logic \& Consistency](#business-logic--consistency)
+        - [Maintainability \& Scalability](#maintainability--scalability)
+        - [Operational Excellence](#operational-excellence)
+  - [Typical pitfalls](#typical-pitfalls)
+  - [Actors / Stakeholders](#actors--stakeholders)
+  - [Trigger Points / Events](#trigger-points--events)
+  - [Recipe Flows](#recipe-flows)
+      - [Swimlane or Sequence Diagram](#swimlane-or-sequence-diagram)
+  - [Systems Involved](#systems-involved)
+  - [Data Requirements](#data-requirements)
+    - [Data Flow Details](#data-flow-details)
+    - [Data Lineage \& Performance Considerations](#data-lineage--performance-considerations)
+    - [Privacy/PII Considerations](#privacypii-considerations)
+    - [Example Composed Object Output](#example-composed-object-output)
+  - [Variants / Alternatives](#variants--alternatives)
+  - [Failure Modes / Edge Cases](#failure-modes--edge-cases)
+  - [Success Metrics / KPIs](#success-metrics--kpis)
+  - [Security \& Compliance Notes](#security--compliance-notes)
 
 ## Recipe Purpose
 
@@ -30,7 +44,7 @@ To deliver a fast, reliable, and fully populated Product Detail Page (PDP) by or
 - Enable non-dev marketing updates to product content
 - Enable personalized or contextual PDP content
 - Streamline cross-channel consistency (web, mobile, kiosk)
-  
+
 **KPI tie-ins:** Conversion rate, average order value (AOV), content engagement metrics, page load time, SEO rankings, content publish velocity.
 
 ---
@@ -46,7 +60,7 @@ In composable commerce, using an orchestration layer instead of front-end bindin
 - Reduced Client-Side Complexity: Front-end binding means the browser must orchestrate multiple API calls, handle failures, and manage complex business logic. This creates slower page loads, increased JavaScript bundle sizes, and potential for user-facing errors during API failures.
 - Access Layer Optimization: An integration layer can implement sophisticated data view strategies, data transformation, and response optimization that would be impossible or inefficient to replicate in every front-end instance.
 - Network Efficiency: Instead of making multiple round-trips from client to various services, the integration layer can aggregate data server-side and return optimized payloads.
-##### Security & Compliance 
+##### Security & Compliance
 - API Key Management: Front-end binding exposes API credentials in client-side code or requires complex token management. The integration layer keeps sensitive credentials server-side.
 - Data Sanitization: Customer data, pricing information, and business logic can be properly filtered and sanitized before reaching the client, preventing data leakage.
 - Rate Limiting & Throttling: Protection against API abuse and managing third-party service rate limits is handled centrally rather than hoping each client implementation respects limits.
@@ -71,7 +85,7 @@ Deployment Independence: Front-end applications can be deployed independently of
 
 > [!TIP]
 > The recipe [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-optimized-access.md) describes a more complex and aggressive data view optimization approach if the use case requires it.
-  
+
 ---
 
 
@@ -114,7 +128,7 @@ What initiates this recipe?
 - Content deployment triggers commerce data validation
 - Scheduled content publication workflows
 - Periodic product catalog synchronization (e.g., nightly batch updates)
-- Access layer refresh intervals for commerce data in content  
+- Access layer refresh intervals for commerce data in content
 ---
 
 ## Recipe Flows
@@ -134,7 +148,7 @@ sequenceDiagram
 
     U->>UI: Navigate to PDP
     UI->>OR: Request PDP data (product_id, locale, segment)
-    
+
     Note over OR: Parallel API calls
     par Fetch core data
         OR->>CE: Get product details
@@ -152,12 +166,12 @@ sequenceDiagram
         OR->>DAM: Get product media
         DAM-->>OR: Images & videos
     end
-    
+
     Note over OR: Compose response
     OR->>OR: Aggregate data
     OR->>OR: Apply business rules
     OR->>OR: Format response
-    
+
     OR-->>UI: Composed PDP object
     UI-->>U: Render PDP
 ```
@@ -180,16 +194,16 @@ sequenceDiagram
 
 ## Data Requirements
 
-| **Entity**          | **Function**                            | **Source System** |
-| ------------------- | --------------------------------------- | ----------------- |
-| [Product](../entities/product/product.md)    | Input - ID or SKU (typically provided via URL) and outputted product info | Commerce Engine / PIM |
-| [Language](../entities/utilities/language.md)    |  Input (optional) - Language/locale/culture information | User Context |
-| Customer Segment    | Input (optional) - additional context for personalization | CDP / User Session |
-| [Inventory](../entities/inventory/inventory.md) | Output - Real-time stock availability | Inventory Service |
-| [Pricing](../entities/pricing/pricing.md) | Output - Contextual pricing information | Pricing Engine |
-| [Promotion](../entities/promotion/promotion.md) | Output - Active promotions and discounts | Promotion Engine |
-| [Media](../entities/utilities/media.md) | Output - Product images, videos, and 3D assets | DAM / Media Service |
-| [Category](../entities/product/category.md) | Output - Product category hierarchy | Commerce Engine |
+| **Entity**                                      | **Function**                                                              | **Source System**     |
+| ----------------------------------------------- | ------------------------------------------------------------------------- | --------------------- |
+| [Product](../entities/product/product.md)       | Input - ID or SKU (typically provided via URL) and outputted product info | Commerce Engine / PIM |
+| [Language](../entities/utilities/language.md)   | Input (optional) - Language/locale/culture information                    | User Context          |
+| Customer Segment                                | Input (optional) - additional context for personalization                 | CDP / User Session    |
+| [Inventory](../entities/inventory/inventory.md) | Output - Real-time stock availability                                     | Inventory Service     |
+| [Pricing](../entities/pricing/pricing.md)       | Output - Contextual pricing information                                   | Pricing Engine        |
+| [Promotion](../entities/promotion/promotion.md) | Output - Active promotions and discounts                                  | Promotion Engine      |
+| [Media](../entities/utilities/media.md)         | Output - Product images, videos, and 3D assets                            | DAM / Media Service   |
+| [Category](../entities/product/category.md)     | Output - Product category hierarchy                                       | Commerce Engine       |
 
 ### Data Flow Details
 
@@ -230,7 +244,7 @@ Fully composed PDP object containing all necessary data for client-side renderin
 - **Viewing history** integration follows data retention policies
 - **Cross-border transfers** require appropriate data residency compliance
 - **B2B scenarios** may expose negotiated rates requiring access control
-     
+
 ### Example Composed Object Output
 
 This example demonstrates a fully orchestrated PDP response combining data from multiple services:
@@ -249,7 +263,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
   },
   "created_at": "2024-11-15T09:30:00Z",
   "updated_at": "2025-07-02T14:22:00Z",
-  
+
 
   "breadcrumbs": [
     { "label": "Home", "url": "/" },
@@ -258,7 +272,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
     { "label": "Headphones", "url": "/electronics/audio/headphones" },
     { "label": "Wireless Headphones", "url": "/electronics/audio/headphones/wireless" }
   ],
-  
+
   "pageInfo": {
     "title": "Premium Wireless Noise-Cancelling Headphones",
     "url": "/products/premium-wireless-noise-cancelling-headphones",
@@ -266,11 +280,11 @@ This example demonstrates a fully orchestrated PDP response combining data from 
     "updated_at": "2025-07-02T14:22:00Z",
     "published_at": "2024-11-15T09:30:00Z"
   },
-  
+
   "name": "Premium Wireless Noise-Cancelling Headphones",
   "description": "Experience studio-quality sound with industry-leading noise cancellation. These premium wireless headphones deliver exceptional audio clarity while blocking out distractions, perfect for travel, work, or leisure.",
   "shortDescription": "Premium wireless headphones with active noise cancellation and 30-hour battery life.",
-  
+
   "marketingContent": {
     "headline": "Silence the World, Amplify Your Music",
     "tagline": "Professional-grade audio meets cutting-edge technology",
@@ -300,7 +314,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
     "currency": "USD",
     "taxIncluded": false
   },
-  
+
   "inventory": {
     "quantities": {
     "onhand": 120,
@@ -309,14 +323,14 @@ This example demonstrates a fully orchestrated PDP response combining data from 
     "incoming": 40
     }
   },
-  
+
   "primary_image": {
     "url": "https://cdn.audiotech.com/img/wireless-headphones-primary.webp",
     "alt": "Premium Wireless Noise-Cancelling Headphones in Black",
     "width": 800,
     "height": 800
   },
-  
+
   "media": [
     {
       "url": "https://cdn.audiotech.com/img/headphones-side-view.webp",
@@ -338,7 +352,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
       "type": "video"
     }
   ],
-  
+
   "rating": {
     "average": 4.7,
     "count": 2847,
@@ -350,7 +364,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
       "1": 28
     }
   },
-  
+
   "attributes": [
     { "label": "Brand", "value": "AudioTech Pro" },
     { "label": "Model", "value": "AT-WH-5000" },
@@ -366,7 +380,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
     { "label": "Warranty", "value": "2 years international" },
     { "label": "Certifications", "value": ["Hi-Res Audio", "FCC", "CE"] }
   ],
-  
+
   "variants": [
     {
       "id": "VAR-WH-BLACK",
@@ -397,14 +411,14 @@ This example demonstrates a fully orchestrated PDP response combining data from 
       }
     }
   ],
-  
+
   "category": {
     "id": "CAT-WIRELESS-HEADPHONES",
     "name": "Wireless Headphones",
     "slug": "wireless",
     "parent_id": "CAT-HEADPHONES"
   },
-  
+
   "related_products": [
     {
       "id": "PROD-HEADPHONE-CASE-001",
@@ -451,7 +465,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
       }
     }
   ],
-  
+
   "extensions": {
     "seo": {
       "meta_title": "Premium Wireless Noise-Cancelling Headphones | AudioTech Pro",
@@ -537,17 +551,17 @@ This example demonstrates a fully orchestrated PDP response combining data from 
 ---
 
 ## Failure Modes / Edge Cases
- 
-| **Scenario** | **Impact** | **Mitigation Strategy** |
-|--------------|------------|-------------------------|
-| **Commerce API Unavailable** | Content pages show incomplete product information | Implement circuit breakers; serve optimized product data; display degraded experience with "pricing unavailable" messaging |
-| **Missing or Invalid Product ID** | Broken product references in published content | Pre-publication validation hooks; automated broken link detection; fallback to similar product recommendations |
-| **Partial Data Delivery** | Inconsistent product information across page elements | Backend-for-Frontend (BFF) layer ensures complete data sets; graceful degradation with placeholder content |
-| **Rate Limits/API Quotas** | Commerce data unavailable during high traffic | Implement API usage throttling; access layer optimization strategies; dedicated read replicas for content integration |
-| **Multi-Region Mismatch** | Wrong currency/availability shown for user location | Geographic routing validation; market-specific content variants; runtime region detection and correction |
-| **A/B Testing Conflicts** | Inconsistent pricing between CMS content and commerce checkout | Unified personalization layer; consistent experiment assignment; real-time data validation at transaction points |
-| **Access Layer Refresh Lag** | Stale pricing/inventory shown in content | Event-driven access layer refresh; short access key lifetimes for commerce data; real-time validation warnings - see [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-cached.md) for more details |
-| **Content/Product Sync Timing** | Content published before product availability | Scheduled publishing workflows; product readiness validation; preview mode restrictions |
+
+| **Scenario**                      | **Impact**                                                     | **Mitigation Strategy**                                                                                                                                                                                                        |
+| --------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Commerce API Unavailable**      | Content pages show incomplete product information              | Implement circuit breakers; serve optimized product data; display degraded experience with "pricing unavailable" messaging                                                                                                     |
+| **Missing or Invalid Product ID** | Broken product references in published content                 | Pre-publication validation hooks; automated broken link detection; fallback to similar product recommendations                                                                                                                 |
+| **Partial Data Delivery**         | Inconsistent product information across page elements          | Backend-for-Frontend (BFF) layer ensures complete data sets; graceful degradation with placeholder content                                                                                                                     |
+| **Rate Limits/API Quotas**        | Commerce data unavailable during high traffic                  | Implement API usage throttling; access layer optimization strategies; dedicated read replicas for content integration                                                                                                          |
+| **Multi-Region Mismatch**         | Wrong currency/availability shown for user location            | Geographic routing validation; market-specific content variants; runtime region detection and correction                                                                                                                       |
+| **A/B Testing Conflicts**         | Inconsistent pricing between CMS content and commerce checkout | Unified personalization layer; consistent experiment assignment; real-time data validation at transaction points                                                                                                               |
+| **Access Layer Refresh Lag**      | Stale pricing/inventory shown in content                       | Event-driven access layer refresh; short access key lifetimes for commerce data; real-time validation warnings - see [PDP Orchestration with Access Layer Optimization Strategy](PDP-orchestration-cached.md) for more details |
+| **Content/Product Sync Timing**   | Content published before product availability                  | Scheduled publishing workflows; product readiness validation; preview mode restrictions                                                                                                                                        |
 
 
 
@@ -610,7 +624,7 @@ This example demonstrates a fully orchestrated PDP response combining data from 
 ---
 
 >  This MACH Alliance Canonical Data Model is intentionally __vendor-neutral__ and serves as a foundation for interoperability across composable architectures. It is __continually evolving__ through community contributions, which are reviewed and approved collaboratively.
->  
+>
 >  All contributions are made under the __Creative Commons Attribution 4.0 International License (CC BY 4.0)__. By submitting a contribution, you agree to license your content under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>, allowing others to share and adapt the material with proper attribution.
->  
+>
 >  We welcome and encourage continued improvements through community input.

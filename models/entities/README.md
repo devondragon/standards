@@ -49,15 +49,15 @@ erDiagram
 ## Product
 - [Product](product/product.md)
 - [Product Type](product/product-type.md)
-- [Catalog](product/catalog.md)
+- Catalog *(coming soon)*
 - [Category](product/category.md)
 
 ## Cart
-- [Cart](cart/cart.md)
+- Cart *(coming soon)*
 
 ## Order
-- [Order](order/order.md)
-- [Order History](order/order-history.md)
+- Order *(coming soon)*
+- Order History *(coming soon)*
   
 ## Payment
 - Payment
@@ -76,17 +76,17 @@ erDiagram
 - Shipping Method
 
 ## Identity
-- Customer
+- [Customer](identity/customer.md)
 
 ## Campaign
 - Campaign
 
 ### Utility functions
-- Address
-- Channel
-- Contact
-- Identifier
+- [Address](utilities/address.md)
+- Channel *(coming soon)*
+- Contact *(coming soon)*
+- Identifier *(coming soon)*
 - [Language](utilities/language.md)
 - [Media](utilities/media.md)
-- Money
-- Store
+- Money *(coming soon)*
+- Store *(coming soon)*
