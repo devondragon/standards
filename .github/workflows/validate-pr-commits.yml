@@ -25,4 +25,4 @@ jobs:
             change
             other
           add_label: 'true'
-          custom_labels: '{"fix":"Fix","new_model":"New Model","change":"Change"}'
+          custom_labels: '{"fix":"Fix","new_model":"New Model","change":"Change","new_recipe":"New Recipe","chore":"Chore"}'
