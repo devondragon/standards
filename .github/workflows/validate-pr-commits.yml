@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Validate PR title
-        uses: ytanikin/PRConventionalCommits
+        uses: ytanikin/PRConventionalCommits@1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
